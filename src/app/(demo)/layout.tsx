@@ -1,9 +1,18 @@
+// import "./globals.css";
+
 import AdminPanelLayout from "@/components/admin-panel/admin-panel-layout";
 
-export default function DemoLayout({
+export default function RootLayout({
   children
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
-  return <AdminPanelLayout>{children}</AdminPanelLayout>;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <AdminPanelLayout>{children}</AdminPanelLayout>
+        </body>
+    </html>
+  );
 }
+
