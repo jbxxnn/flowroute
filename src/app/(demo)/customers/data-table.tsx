@@ -133,9 +133,9 @@ export function DataTable<TData, TValue>({
   </DialogTrigger>
   <DialogContent>
     <DialogHeader>
-      <DialogTitle>Are you absolutely sure?</DialogTitle>
+      <DialogTitle>Add New Customer</DialogTitle>
       <DialogDescription>
-        <ProfileForm onSubmit={handleFormSubmit} />
+       
       </DialogDescription>
     </DialogHeader>
   </DialogContent>

@@ -50,20 +50,6 @@ export function getMenuList(pathname: string): Group[] {
           icon: Users,
           submenus: []
         },
-        {
-          href: "/categories",
-          label: "Categories",
-          active: pathname.includes("/categories"),
-          icon: Bookmark,
-          submenus: []
-        },
-        {
-          href: "/tags",
-          label: "Tags",
-          active: pathname.includes("/tags"),
-          icon: Tag,
-          submenus: []
-        }
       ]
     },
     {
