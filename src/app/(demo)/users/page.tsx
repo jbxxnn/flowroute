@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import UpdateItemForm from "@/components/ui/update-item";
 import PlaceholderContent from "@/components/demo/placeholder-content";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import {
@@ -33,7 +34,7 @@ export default function UsersPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <PlaceholderContent />
+      <UpdateItemForm />
     </ContentLayout>
   );
 }
