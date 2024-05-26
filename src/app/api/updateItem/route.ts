@@ -1,6 +1,13 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import connection from './mysql';
 
-const updateItem = async (req: { body: { id: any; newName: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; }): void; new(): any; }; }; }) => {
+export default async function handler(req: NextApiRequest & { body: { id: any; newName: any; }; }, res: NextApiResponse) {
+
+  if (req.method !== "PATCH"){
+    res.status(405)
+    return
+  }
+
   const { id, newName } = req.body;
 
   try {
@@ -10,5 +17,3 @@ const updateItem = async (req: { body: { id: any; newName: any; }; }, res: { sta
     res.status(500).json({ message: 'An error occurred' });
   }
 };
-
-export default updateItem;

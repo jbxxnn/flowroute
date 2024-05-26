@@ -11,7 +11,7 @@ const UpdateItemForm: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const response = await axios.post('/api/updateItem', { id, newName });
+      const response = await axios.patch('/api/updateItem', { id, newName });
       setMessage(response.data.message);
       console.log('Success:', response.data.message); // Log success message
     } catch (error) {
