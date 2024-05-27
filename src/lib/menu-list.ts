@@ -50,6 +50,13 @@ export function getMenuList(pathname: string): Group[] {
           icon: Users,
           submenus: []
         },
+        {
+          href: "/plans",
+          label: "Phone Plans",
+          active: pathname.includes("/plans"),
+          icon: Tag,
+          submenus: []
+        },
       ]
     },
     {
