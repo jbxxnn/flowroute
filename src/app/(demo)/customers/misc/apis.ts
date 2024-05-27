@@ -1,7 +1,7 @@
 import { AddCustomerFormData, Customer } from "@/lib/types/customers";
 
 export async function addCustomerAPI(customer:AddCustomerFormData){
-  return await fetch("/api/add-user", {
+  return await fetch("/api/customers", {
     method: "POST",
     body: JSON.stringify(customer),
     headers: {

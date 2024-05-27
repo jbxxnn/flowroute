@@ -1,7 +1,7 @@
 import { AddPlanFormData } from "@/lib/types/plans";
 
 export async function createNewPlanAPI(plan:AddPlanFormData){
-  return await fetch("/api/add-plan", {
+  return await fetch("/api/plans", {
     method: "POST",
     body: JSON.stringify(plan),
     headers: {
