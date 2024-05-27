@@ -1,5 +1,7 @@
+'use client'
+
 import Link from "next/link";
-import { Payment, columns } from "./columns"
+import { columns } from "./columns"
 import { DataTable } from "./data-table"
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import {
@@ -10,52 +12,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
+import { fetchCustomersQuery } from "./misc/queries";
 
+export default function PostsPage() {
 
-
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "linda@example.com",
-    },
-    {
-      id: "728ed53d",
-      amount: 600,
-      status: "processing",
-      email: "jibrin@example.com",
-    },
-    {
-      id: "728ed59h",
-      amount: 300,
-      status: "success",
-      email: "james@example.com",
-    },
-    {
-      id: "728ed50n",
-      amount: 900,
-      status: "pending",
-      email: "daniel@example.com",
-    },
-    {
-      id: "728ed51w",
-      amount: 2000,
-      status: "processing",
-      email: "anna@example.com",
-    },
-    // ...
-  ]
-}
-
-
-
-
-export default async function PostsPage() {
-
-  const data = await getData()
+  const {isLoading, isSuccess, data, isError, error} = fetchCustomersQuery()
 
   return (
     <ContentLayout title="All Customers">
@@ -73,7 +34,14 @@ export default async function PostsPage() {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
+        {isError && (
+        <p className="text-red-500 p-2">{error.message}</p>
+        )}
+        {isLoading ? (
+        <p>Loading...</p>
+        ): (
+        <DataTable columns={columns} data={data||[]} />
+        )}
       </div>
     </ContentLayout>
   );

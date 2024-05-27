@@ -15,6 +15,6 @@ export async function addCustomerAPI(customer:AddCustomerFormData){
     });
 }
 
-export async function fetchCustomersAPI(){
-  
+export async function fetchCustomersAPI():Promise<Customer[]>{
+  return await fetch("/api/customers").then(res=>res.json())
 }
