@@ -263,7 +263,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
         </div>
 
         <div className="">
-          <Button className='w-full' >
+          <Button className='w-full' busy={addCustomerMutation.isPending} >
             Submit
           </Button >
 
