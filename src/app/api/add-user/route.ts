@@ -15,21 +15,67 @@ const pool = mysql.createPool({
 });
 
 const formSchema = z.object({
-  id: z.string().min(1, { message: "ID must be at least 1 character long" }),
-  name: z.string().min(1, { message: "Name is required" }),
+  fullname: z.string().min(2, {
+    message: 'Name must be at least 2 characters.',
+  }),
+  phone: z.string().min(2, {
+    message: 'Phone number is required',
+  }).regex(new RegExp(
+    /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+  ), 'Please enter a valid phone number'),
+  email: z.string().min(1, {
+    message: 'Email must be at least 2 characters.',
+  }).email("Please input a valid email"),
+  street_address: z.string().min(2, {
+    message: 'Street Address must be at least 2 characters.',
+  }),
+  city: z.string().min(2, {
+    message: 'City must be at least 2 characters.',
+  }),
+  state: z.string().min(2, {
+    message: 'State must be at least 2 characters.',
+  }),
+  zipcode: z.string().min(2, {
+    message: 'ZipCode must be at least 2 characters.',
+  }),
+  customer_access_key: z.string().min(2, {
+    message: 'Customer Access Key must be at least 2 characters.',
+  }),
+  customer_secret_key: z.string().min(2, {
+    message: 'Customer Secret Key must be at least 2 characters.',
+  }),
+
+  extra_field: z.string(),
+
+  customer_billing_day: z.number({required_error:"This field is required"}),
+  metered_billing_plan: z.string().min(2, {
+    message: 'Metered Billing Plan must be at least 2 characters.',
+  }),
+  metered_SIP_trunk_usage: z.string().min(2, {
+    message: 'SIP Trunk usage must be at least 2 characters.',
+  }),
+  cloud_server_hosting_subscription: z.string().min(2, {
+    message: 'Cloud Server Hosting Subscription must be at least 2 characters.',
+  }),
 });
 
 export async function POST(request: NextRequest) {
+
   const data = await request.json();
 
   try {
-    formSchema.parse(data);
-    const { id, name } = data;
+    const _data = formSchema.safeParse(data);
+    if (!_data.success){
+      return NextResponse.json({success:false, errors: _data.error}, {status:400})
+    }
+
+    const id = "some random id"
+    const {fullname} = _data.data
 
     // Insert into MySQL
     const [result] = await pool.query(
       "INSERT INTO items (id, name) VALUES (?, ?)",
-      [id, name]
+      [id, fullname]
     ) as [ResultSetHeader, any];
 
     if (result.affectedRows === 1) {

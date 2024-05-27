@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ProfileForm } from "./new-form"
+import { NewForm } from "./new-form"
 import * as React from "react"
 import {
   ColumnDef,
@@ -80,9 +80,6 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  function handleFormSubmit(values: { username: string }): void {
-    throw new Error("Function not implemented.")
-  }
 
   return (
     <div>
@@ -136,7 +133,7 @@ export function DataTable<TData, TValue>({
               <DialogTitle>Add New Customer</DialogTitle>
             </DialogHeader>
             <DialogDescription>
-              <ProfileForm onSubmit={handleFormSubmit} />
+              <NewForm />
             </DialogDescription>
           </DialogContent>
         </Dialog>
