@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -13,6 +15,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useMutation } from '@tanstack/react-query';
+import { createNewPlanAPI } from './misc/apis';
+import { useRouter } from 'next/navigation';
 
 
 const formSchema = z.object({
@@ -31,9 +36,17 @@ const formSchema = z.object({
 
 
 export function AddForm() {
-  const [submissionStatus, setSubmissionStatus] = useState<
-    null | "success" | "error" | string
-  >(null);
+  const router = useRouter()
+
+  const addPlanMutation = useMutation({
+    mutationKey: ["plans"],
+    mutationFn: createNewPlanAPI,
+    onSuccess: (result)=>{
+      form.reset();
+      router.push(`/plans/${result.id}`)
+    }
+  })
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -44,51 +57,7 @@ export function AddForm() {
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
-    try {
-      const response = await fetch("/api/add-plan", { // Updated API endpoint
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const responseData = await response.json();
-
-      if (response.ok) {
-        setSubmissionStatus("success");
-        form.reset();
-      } else {
-        setSubmissionStatus("error");
-
-        if (responseData.errors) {
-          // Handle Zod validation errors returned by API
-          for (const error of responseData.errors) {
-            form.setError(error.path[0], { type: "manual", message: error.message });
-          }
-        } else if (responseData.message) {
-          // Handle specific error messages from the API
-          switch (responseData.message) {
-            case "An item with this ID already exists.":
-              form.setError("plan_name", {
-                type: "manual",
-                message: responseData.message,
-              });
-              break;
-            default:
-              // Generic error handling
-              setSubmissionStatus(responseData.message);
-          }
-        } else {
-          // Handle unexpected API errors
-          console.error("Unexpected error:", responseData);
-          setSubmissionStatus("An unexpected error occurred.");
-        }
-      }
-    } catch (error) {
-      setSubmissionStatus("error");
-      console.error("Error submitting form:", error);
-    }
+    addPlanMutation.mutate(data)
   };
 
   return (
@@ -135,14 +104,14 @@ export function AddForm() {
           )}
         />
 
-        <Button className='w-full' type="submit">Add New Plan</Button>
+        <Button className='w-full' type="submit" busy={addPlanMutation.isPending}>Add New Plan</Button>
 
         {/* Submission Status Messages */}
-        {submissionStatus === "success" && (
+        {addPlanMutation.isSuccess && (
           <p className="text-green-500">New Plan Added successfully!</p>
         )}
-        {submissionStatus === "error" && (
-          <p className="text-red-500">Error Adding New Plan. Please try again.</p>
+        {addPlanMutation.isError && (
+          <p className="text-red-500">{addPlanMutation.error.message}</p>
         )}
       </form>
     </Form>
