@@ -17,7 +17,7 @@ import { DatePicker } from '@/components/ShadCN/DatePicker';
 import { Form } from '@/components/ui/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCustomerAPI } from './misc/apis';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 
 const extra_field_options = [
