@@ -46,7 +46,7 @@ export default async function PostsPage() {
   const data = await getData()
 
   return (
-    <ContentLayout title="All Customers">
+    <ContentLayout title="All Phone Plans">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
