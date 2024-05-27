@@ -25,11 +25,13 @@ export async function GET(request: NextRequest) {
 
     connection.release(); // Important: Release the connection back to the pool
 
+    console.log({rows})
+
     return NextResponse.json(rows, { status: 200 });
   } catch (error: any) {
-    console.error("Error fetching plans:", error.message);
+    console.error("Error fetching customers:", error.message);
     return NextResponse.json(
-      { success: false, message: "An error occurred fetching plans." },
+      { success: false, message: "An error occurred fetching customers." },
       { status: 500 }
     );
   }
