@@ -30,7 +30,7 @@ const formSchema = z.object({
 
 
 
-export function ProfileForm() {
+export function AddForm() {
   const [submissionStatus, setSubmissionStatus] = useState<
     null | "success" | "error" | string
   >(null);
@@ -93,9 +93,9 @@ export function ProfileForm() {
 
   return (
     <Form {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
 
-    <FormField
+        <FormField
           control={form.control}
           name="plan_name"
           render={({ field }) => (
@@ -108,7 +108,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-      <FormField
+        <FormField
           control={form.control}
           name="included_minutes"
           render={({ field }) => (
@@ -121,7 +121,7 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-      <FormField
+        <FormField
           control={form.control}
           name="plan_price"
           render={({ field }) => (
@@ -135,16 +135,16 @@ export function ProfileForm() {
           )}
         />
 
-<Button type="submit">Add New Plan</Button>
+        <Button className='w-full' type="submit">Add New Plan</Button>
 
-{/* Submission Status Messages */}
-{submissionStatus === "success" && (
-  <p className="text-green-500">New Plan Added successfully!</p>
-)}
-{submissionStatus === "error" && (
-  <p className="text-red-500">Error Adding New Plan. Please try again.</p>
-)}
-    </form>
+        {/* Submission Status Messages */}
+        {submissionStatus === "success" && (
+          <p className="text-green-500">New Plan Added successfully!</p>
+        )}
+        {submissionStatus === "error" && (
+          <p className="text-red-500">Error Adding New Plan. Please try again.</p>
+        )}
+      </form>
     </Form>
   );
 }

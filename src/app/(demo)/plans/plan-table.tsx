@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ProfileForm } from "./new-plan"
+import { AddForm } from "./new-plan"
 import * as React from "react"
 import {
   ColumnDef,
@@ -136,7 +136,7 @@ export function DataTable<TData, TValue>({
               <DialogTitle>Add New Plan</DialogTitle>
             </DialogHeader>
             <DialogDescription>
-              <ProfileForm onSubmit={handleFormSubmit} />
+              <AddForm onSubmit={handleFormSubmit} />
             </DialogDescription>
           </DialogContent>
         </Dialog>
