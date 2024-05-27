@@ -136,7 +136,7 @@ export function DataTable<TData, TValue>({
               <DialogTitle>Add New Plan</DialogTitle>
             </DialogHeader>
             <DialogDescription>
-              <AddForm onSubmit={handleFormSubmit} />
+              <AddForm />
             </DialogDescription>
           </DialogContent>
         </Dialog>
