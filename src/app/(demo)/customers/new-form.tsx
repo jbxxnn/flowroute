@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -15,6 +17,7 @@ import { DatePicker } from '@/components/ShadCN/DatePicker';
 import { Form } from '@/components/ui/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCustomerAPI } from './misc/apis';
+import { useRouter } from 'next/router';
 
 
 const extra_field_options = [
@@ -74,18 +77,19 @@ interface ProfileFormProps {
 
 
 export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
+  const router = useRouter()
 
   const query_key = ['customers']
   const query_client = useQueryClient()
 
-  const addCustomerQuery = useMutation({
+  const addCustomerMutation = useMutation({
     mutationFn: addCustomerAPI,
     mutationKey: query_key,
-    onSuccess:()=>{
+    onSuccess:(result)=>{
       query_client.refetchQueries({
         queryKey:query_key
       })
-
+      router.push(`/customers/${result.id}`)
     }
   })
   
@@ -98,7 +102,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
   });
 
   function handleSubmit(values: z.infer<typeof formSchema>) {
-    addCustomerQuery.mutate(values)
+    addCustomerMutation.mutate(values)
   }
 
   return (
