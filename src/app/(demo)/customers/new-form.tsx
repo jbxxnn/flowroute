@@ -188,7 +188,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
               </SelectTrigger>
               <SelectContent>
                 {extra_field_options.map(option=>(
-                  <SelectItem value={option.id}>{option.title}</SelectItem>
+                  <SelectItem key={option.id} value={option.id}>{option.title}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
