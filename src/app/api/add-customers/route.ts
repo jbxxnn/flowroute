@@ -70,12 +70,12 @@ export async function POST(request: NextRequest) {
     }
 
     const id = "some random id"
-    const {fullname} = _data.data
+    const {fullname, city} = _data.data
 
     // Insert into MySQL
     const [result] = await pool.query(
-      "INSERT INTO items (id, name) VALUES (?, ?)",
-      [id, fullname]
+      "INSERT INTO customers (customer_id, name, city) VALUES (?, ?, ?)",
+      [id, fullname, city]
     ) as [ResultSetHeader, any];
 
     if (result.affectedRows === 1) {
