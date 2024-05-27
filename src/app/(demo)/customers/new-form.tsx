@@ -266,6 +266,13 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
           <Button className='w-full' >
             Submit
           </Button >
+
+          {addCustomerMutation.isSuccess && (
+            <p className="text-green-500">New Customer Added successfully!</p>
+          )}
+          {addCustomerMutation.isError && (
+            <p className="text-red-500">{addCustomerMutation.error.message}</p>
+          )}
         </div>
       </form>
     </Form>
