@@ -212,7 +212,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
                     <SelectContent>
                       {
                         Array.from(Array(31).keys()).map((day=>(
-                          <SelectItem value={String(day+1)}>{day+1}</SelectItem>
+                          <SelectItem key={day} value={String(day+1)}>{day+1}</SelectItem>
                         )))
                       }
                     </SelectContent>
