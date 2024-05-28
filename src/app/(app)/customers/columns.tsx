@@ -39,8 +39,8 @@ export const columns: ColumnDef<Customer>[] = [
           enableHiding: false,
     },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "fullname",
+    header: "Full name",
   },
   {
     accessorKey: "email",
@@ -57,22 +57,13 @@ export const columns: ColumnDef<Customer>[] = [
       },
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
- 
-      return <div className="text-right font-medium">{formatted}</div>
-    },
+    accessorKey: "phone",
+    header: "Phone",
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const payment = row.original
+      const customer = row.original
  
       return (
         <DropdownMenu>
@@ -85,17 +76,16 @@ export const columns: ColumnDef<Customer>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(customer.customer_id)}
             >
-              Copy payment ID
+              Copy customer ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/customers/${payment.id}`}>
+              <Link href={`/customers/${customer.customer_id}`}>
                 View customer
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
