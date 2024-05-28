@@ -78,10 +78,10 @@ const formSchema = z.object({
     message: 'Metered Billing Plan must be at least 2 characters.',
   }),
 
-  metered_sip_trunk_usage: z.number({required_error:'SIP Trunk usage is required.'}).min(1, {
+  metered_sip_trunk_usage: z.string({required_error:'SIP Trunk usage is required.'}).min(1, {
     message: 'SIP Trunk usage must be at least 2 characters.',
   }),
-  cloud_server_hosting_subscription: z.number({required_error: 'Cloud Server Hosting Subscription is required'}).min(1, {
+  cloud_server_hosting_subscription: z.string({required_error: 'Cloud Server Hosting Subscription is required'}).min(1, {
     message: 'Cloud Server Hosting Subscription must be greater than 0.',
   }),
 });

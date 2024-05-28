@@ -61,10 +61,10 @@ const formSchema = z.object({
   metered_billing_plan: z.string().min(2, {
     message: 'Metered Billing Plan must be at least 2 characters.',
   }),
-  metered_sip_trunk_usage: z.number({required_error:'SIP Trunk usage is required.'}).min(1, {
+  metered_sip_trunk_usage: z.string({required_error:'SIP Trunk usage is required.'}).min(1, {
     message: 'SIP Trunk usage must be at least 2 characters.',
   }),
-  cloud_server_hosting_subscription: z.number({required_error: 'Cloud Server Hosting Subscription is required'}).min(1, {
+  cloud_server_hosting_subscription: z.string({required_error: 'Cloud Server Hosting Subscription is required'}).min(1, {
     message: 'Cloud Server Hosting Subscription must be greater than 0.',
   }),
 });
@@ -233,7 +233,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
               <div className='space-y-2'>
                 <label>
                   Metered SIP Trunk Usage
-                  <Input {...form.register('metered_sip_trunk_usage')} type="number" onChange={e=>form.setValue("metered_sip_trunk_usage",Number(e.target.value))} />
+                  <Input {...form.register('metered_sip_trunk_usage')} type="number" />
                   <span className="text-xs text-gray-400">
                     This is the additional charge for Metered SIP usage.
                   </span>
@@ -245,7 +245,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
               <div className='space-y-2'>
                 <label>
                   Cloud Server Hosting Subscription
-                  <Input {...form.register('cloud_server_hosting_subscription')} type="number" onChange={e=>form.setValue("cloud_server_hosting_subscription",Number(e.target.value))} />
+                  <Input {...form.register('cloud_server_hosting_subscription')} type="number"  />
                 </label>
                 {form.formState.errors.cloud_server_hosting_subscription && <span className='label-error'>{form.formState.errors.cloud_server_hosting_subscription.message}</span>}
               </div>
