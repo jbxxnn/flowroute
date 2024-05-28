@@ -61,23 +61,23 @@ const formSchema = z.object({
   state: z.string().min(2, {
     message: 'State must be at least 2 characters.',
   }),
-  zipcode: z.string().min(2, {
+  zip_code: z.string().min(2, {
     message: 'ZipCode must be at least 2 characters.',
   }),
-  customer_access_key: z.string().min(2, {
+  access_key: z.string().min(2, {
     message: 'Customer Access Key must be at least 2 characters.',
   }),
-  customer_secret_key: z.string().min(2, {
+  secret_key: z.string().min(2, {
     message: 'Customer Secret Key must be at least 2 characters.',
   }),
 
   extra_field: z.string(),
 
-  customer_billing_day: z.number({required_error:"This field is required"}),
+  billing_day: z.number({required_error:"This field is required"}),
   metered_billing_plan: z.string().min(2, {
     message: 'Metered Billing Plan must be at least 2 characters.',
   }),
-  metered_SIP_trunk_usage: z.string().min(2, {
+  metered_sip_trunk_usage: z.string().min(2, {
     message: 'SIP Trunk usage must be at least 2 characters.',
   }),
   cloud_server_hosting_subscription: z.string().min(2, {
