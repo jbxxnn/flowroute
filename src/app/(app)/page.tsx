@@ -21,10 +21,6 @@ export default function DashboardPage() {
               <Link href="/">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Dashboard</BreadcrumbPage>
-          </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
     </ContentLayout>

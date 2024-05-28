@@ -24,12 +24,12 @@ export default function PostsPage() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/">Home</Link>
             </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Customers</BreadcrumbPage>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Customers</BreadcrumbPage>
+            </BreadcrumbItem>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
