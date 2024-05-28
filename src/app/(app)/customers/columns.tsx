@@ -57,10 +57,6 @@ export const columns: ColumnDef<Customer>[] = [
       },
   },
   {
-    accessorKey: "phone",
-    header: "Phone",
-  },
-  {
     id: "actions",
     cell: ({ row }) => {
       const customer = row.original
