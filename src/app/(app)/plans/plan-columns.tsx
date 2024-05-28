@@ -38,7 +38,7 @@ export const columns: ColumnDef<Plan>[] = [
           enableHiding: false,
     },
   {
-    accessorKey: "name",
+    accessorKey: "plan_name",
     header: ({ column }) => {
         return (
           <Button
@@ -56,10 +56,10 @@ export const columns: ColumnDef<Plan>[] = [
     header: "Included Minutes",
   },
   {
-    accessorKey: "amount",
+    accessorKey: "plan_price",
     header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+      const amount = parseFloat(row.getValue("plan_price"))
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: "USD",
