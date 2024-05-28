@@ -96,12 +96,12 @@ export async function POST(request: NextRequest) {
     }
 
     const id = "some random id"
-    const {fullname, city} = _data.data
+    const {fullname, phone, email, street_address, city, state, zipcode, customer_access_key, customer_secret_key, customer_billing_day, metered_billing_plan, metered_SIP_trunk_usage, cloud_server_hosting_subscription} = _data.data
 
     // Insert into MySQL
     const [result] = await pool.query(
-      "INSERT INTO customers (customer_id, name, city) VALUES (?, ?, ?)",
-      [id, fullname, city]
+      "INSERT INTO customers (fullname, phone, email, street_address, city, state, zipcode, customer_access_key, customer_secret_key, customer_billing_day, metered_billing_plan, metered_SIP_trunk_usage, cloud_server_hosting_subscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [fullname, phone, email, street_address, city, state, zipcode, customer_access_key, customer_secret_key, customer_billing_day, metered_billing_plan, metered_SIP_trunk_usage, cloud_server_hosting_subscription]
     ) as [ResultSetHeader, any];
 
     if (result.affectedRows === 1) {
