@@ -18,3 +18,8 @@ export async function addCustomerAPI(customer:AddCustomerFormData){
 export async function fetchCustomersAPI():Promise<Customer[]>{
   return await fetch("/api/customers").then(res=>res.json())
 }
+
+
+export async function fetchCustomerAPI(customer_slug:string):Promise<Customer>{
+  return await fetch(`/api/customers/${customer_slug}`).then(res=>res.json())
+}
