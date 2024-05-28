@@ -233,7 +233,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
               <div className='space-y-2'>
                 <label>
                   Metered SIP Trunk Usage
-                  <Input {...form.register('metered_sip_trunk_usage')} />
+                  <Input {...form.register('metered_sip_trunk_usage')} type="number" onChange={e=>form.setValue("metered_sip_trunk_usage",Number(e.target.value))} />
                   <span className="text-xs text-gray-400">
                     This is the additional charge for Metered SIP usage.
                   </span>
@@ -245,7 +245,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
               <div className='space-y-2'>
                 <label>
                   Cloud Server Hosting Subscription
-                  <Input {...form.register('cloud_server_hosting_subscription')} />
+                  <Input {...form.register('cloud_server_hosting_subscription')} type="number" onChange={e=>form.setValue("cloud_server_hosting_subscription",Number(e.target.value))} />
                 </label>
                 {form.formState.errors.cloud_server_hosting_subscription && <span className='label-error'>{form.formState.errors.cloud_server_hosting_subscription.message}</span>}
               </div>
