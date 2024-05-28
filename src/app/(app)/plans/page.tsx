@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link";
 import { Payment, columns } from "./plan-columns";
 import { DataTable } from "./plan-table";
@@ -10,40 +12,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
+import { fetchPlansQuery } from "./misc/queries";
 
 
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "728ed52f",
-      amount: 25,
-      included_minutes: 800,
-      name: "Basic",
-    },
-    {
-      id: "728ed53d",
-      amount: 40,
-      included_minutes: 1300,
-      name: "Advance",
-    },
-    {
-      id: "728ed59h",
-      amount: 55,
-      included_minutes: 1900,
-      name: "Premium",
-    },
-    // ...
-  ]
-}
+export default function PostsPage() {
 
-
-
-
-export default async function PostsPage() {
-
-  const data = await getData()
+  const {data, isLoading, isError, error} = fetchPlansQuery()
 
   return (
     <ContentLayout title="All Phone Plans">
@@ -61,7 +36,14 @@ export default async function PostsPage() {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
+        {isError && (
+          <p className="text-red-500 p-2">{error.message}</p>
+        )}
+        {isLoading ? (
+          <p>Loading...</p>
+        ): (
+            <DataTable columns={columns} data={data||[]} />
+          )}
       </div>
     </ContentLayout>
   );

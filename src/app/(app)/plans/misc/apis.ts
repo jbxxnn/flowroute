@@ -1,4 +1,4 @@
-import { AddPlanFormData } from "@/lib/types/plans";
+import { AddPlanFormData, Plan } from "@/lib/types/plans";
 
 export async function createNewPlanAPI(plan:AddPlanFormData){
   return await fetch("/api/plans", {
@@ -15,6 +15,6 @@ export async function createNewPlanAPI(plan:AddPlanFormData){
     });
 }
 
-export function fetchPlansAPI(){
-
+export async function fetchPlansAPI():Promise<Plan[]>{
+  return await fetch("/api/plans").then(res=>res.json())
 }

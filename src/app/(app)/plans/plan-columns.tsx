@@ -12,17 +12,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Plan } from "@/lib/types/plans"
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  id: string
-  name: string
-  amount: number
-  included_minutes: number
-}
-
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Plan>[] = [
     {
         id: "select",
         header: ({ table }) => (

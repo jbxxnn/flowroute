@@ -22,6 +22,29 @@ const formSchema = z.object({
   plan_price: z.string().min(1, { message: "Plan Price is required" }),
 });
 
+export async function GET(request: NextRequest) {
+  try {
+    const connection = await pool.getConnection(); 
+
+    // Fetch all plans (adjust the query as needed)
+    const [rows] = await connection.query(
+      "SELECT * FROM plans"
+    );
+
+    connection.release(); // Important: Release the connection back to the pool
+
+    console.log({rows})
+
+    return NextResponse.json(rows, { status: 200 });
+  } catch (error: any) {
+    console.error("Error fetching plans:", error.message);
+    return NextResponse.json(
+      { success: false, message: "An error occurred fetching plans." },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST(request: NextRequest) {
   const data = await request.json();
 
