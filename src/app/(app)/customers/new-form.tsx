@@ -13,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { DatePicker } from '@/components/ShadCN/DatePicker';
 import { Form } from '@/components/ui/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCustomerAPI } from './misc/apis';
@@ -46,24 +45,23 @@ const formSchema = z.object({
   state: z.string().min(2, {
     message: 'State must be at least 2 characters.',
   }),
-  zipcode: z.string().min(2, {
+  zip_code: z.string().min(2, {
     message: 'ZipCode must be at least 2 characters.',
   }),
-  customer_access_key: z.string().min(2, {
+  access_key: z.string().min(2, {
     message: 'Customer Access Key must be at least 2 characters.',
   }),
-  customer_secret_key: z.string().min(2, {
+  secret_key: z.string().min(2, {
     message: 'Customer Secret Key must be at least 2 characters.',
   }),
 
   extra_field: z.string(),
 
-  customer_billing_day: z.number({required_error:"This field is required"}),
-  _customer_billing_day: z.date({required_error:"This field is required"}),
+  billing_day: z.number({required_error:"This field is required"}),
   metered_billing_plan: z.string().min(2, {
     message: 'Metered Billing Plan must be at least 2 characters.',
   }),
-  metered_SIP_trunk_usage: z.string().min(2, {
+  metered_sip_trunk_usage: z.string().min(2, {
     message: 'SIP Trunk usage must be at least 2 characters.',
   }),
   cloud_server_hosting_subscription: z.string().min(2, {
@@ -161,26 +159,26 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
           <div className='space-y-2'>
             <label>
               Zipcode
-              <Input {...form.register('zipcode')} />
+              <Input {...form.register('zip_code')} />
             </label>
-            {form.formState.errors.zipcode && <span className='label-error'>{form.formState.errors.zipcode.message}</span>}
+            {form.formState.errors.zip_code && <span className='label-error'>{form.formState.errors.zip_code.message}</span>}
           </div>
         </div>
 
         <div className='space-y-2'>
           <label>
             Customer Access Key
-            <Input {...form.register('customer_access_key')} />
+            <Input {...form.register('access_key')} />
           </label>
-          {form.formState.errors.customer_access_key && <span className='label-error'>{form.formState.errors.customer_access_key.message}</span>}
+          {form.formState.errors.access_key && <span className='label-error'>{form.formState.errors.access_key.message}</span>}
         </div>
 
         <div className='space-y-2'>
           <label>
             Customer Secret Key
-            <Input {...form.register('customer_secret_key')} />
+            <Input {...form.register('secret_key')} />
           </label>
-          {form.formState.errors.customer_secret_key && <span className='label-error'>{form.formState.errors.customer_secret_key.message}</span>}
+          {form.formState.errors.secret_key && <span className='label-error'>{form.formState.errors.secret_key.message}</span>}
         </div>
 
         <div className='space-y-2'>
@@ -207,9 +205,21 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
               <div className='space-y-2'>
                 <label>
                   Customer Billing Day
-                  <DatePicker displayed_value={form.watch("customer_billing_day")} value={form.watch('_customer_billing_day')} onValueChange={val=>{form.setValue('_customer_billing_day', val); form.setValue('customer_billing_day', val.getDate())}} />
+                  <Select  value={String(form.watch('billing_day'))} onValueChange={value=>form.setValue("billing_day", Number(value))}>
+                    <SelectTrigger className="">
+                      <SelectValue placeholder="Select customer billing day" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {
+                        Array.from(Array(31).keys()).map((day=>(
+                          <SelectItem value={String(day+1)}>{day+1}</SelectItem>
+                        )))
+                      }
+                    </SelectContent>
+                  </Select>
+                  
                 </label>
-                {form.formState.errors.customer_billing_day && <span className='label-error'>{form.formState.errors.customer_billing_day.message}</span>}
+                {form.formState.errors.billing_day && <span className='label-error'>{form.formState.errors.billing_day.message}</span>}
               </div>
 
               <div className='space-y-2'>
@@ -223,12 +233,12 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
               <div className='space-y-2'>
                 <label>
                   Metered SIP Trunk Usage
-                  <Input {...form.register('metered_SIP_trunk_usage')} />
+                  <Input {...form.register('metered_sip_trunk_usage')} />
                   <span className="text-xs text-gray-400">
                     This is the additional charge for Metered SIP usage.
                   </span>
                 </label>
-                {form.formState.errors.metered_SIP_trunk_usage && <span className='label-error'>{form.formState.errors.metered_SIP_trunk_usage.message}</span>}
+                {form.formState.errors.metered_sip_trunk_usage && <span className='label-error'>{form.formState.errors.metered_sip_trunk_usage.message}</span>}
               </div>
 
 
