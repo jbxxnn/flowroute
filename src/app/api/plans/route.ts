@@ -36,6 +36,19 @@ export async function POST(request: NextRequest) {
     ) as [ResultSetHeader, any];
 
     if (result.affectedRows === 1) {
+      // logic to add to php
+      await fetch("https://fbc.versal.tech/stripe/create_product.php/", {
+        method: "POST",
+        headers: {
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+          productName: plan_name,
+          productDescription: plan_description,
+          price: plan_price,
+        })
+      })
+
       return NextResponse.json({
         success: true,
         message: "Plan added successfully!",
