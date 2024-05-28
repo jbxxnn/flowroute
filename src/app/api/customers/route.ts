@@ -77,11 +77,12 @@ const formSchema = z.object({
   metered_billing_plan: z.string().min(2, {
     message: 'Metered Billing Plan must be at least 2 characters.',
   }),
-  metered_sip_trunk_usage: z.string().min(2, {
+
+  metered_sip_trunk_usage: z.number({required_error:'SIP Trunk usage is required.'}).min(1, {
     message: 'SIP Trunk usage must be at least 2 characters.',
   }),
-  cloud_server_hosting_subscription: z.string().min(2, {
-    message: 'Cloud Server Hosting Subscription must be at least 2 characters.',
+  cloud_server_hosting_subscription: z.number({required_error: 'Cloud Server Hosting Subscription is required'}).min(1, {
+    message: 'Cloud Server Hosting Subscription must be greater than 0.',
   }),
 });
 
@@ -96,12 +97,12 @@ export async function POST(request: NextRequest) {
     }
 
     const id = "some random id"
-    const {fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_sip_trunk_usage, cloud_server_hosting_subscription} = _data.data
+    const {fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_billing_plan, metered_sip_trunk_usage, cloud_server_hosting_subscription} = _data.data
 
     // Insert into MySQL
     const [result] = await pool.query(
-      "INSERT INTO customers (fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, customer_billing_day, metered_sip_trunk_usage, cloud_server_hosting_subscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_sip_trunk_usage, cloud_server_hosting_subscription]
+      "INSERT INTO customers (fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_billing_plan, metered_sip_trunk_usage, cloud_server_hosting_subscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_billing_plan, metered_sip_trunk_usage, cloud_server_hosting_subscription]
     ) as [ResultSetHeader, any];
 
     if (result.affectedRows === 1) {

@@ -11,8 +11,8 @@ export type Customer = {
   access_key: string;
   billing_day: number;
   metered_billing_plan: string;
-  metered_sip_trunk_usage: string;
-  cloud_server_hosting_subscription: string;
+  metered_sip_trunk_usage: number;
+  cloud_server_hosting_subscription: number;
   product_id: string;
 }
 

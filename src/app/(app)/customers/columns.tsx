@@ -78,7 +78,7 @@ export const columns: ColumnDef<Customer>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href={`/customers/${customer.customer_id}`}>
+              <Link href={`/customers/${customer.email}`}>
                 View customer
               </Link>
             </DropdownMenuItem>

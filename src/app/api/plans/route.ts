@@ -17,6 +17,7 @@ const pool = mysql.createPool({
 
 const formSchema = z.object({
   plan_name: z.string().min(1, { message: "Plan Name must be at least 1 character long" }),
+  plan_description: z.string().min(1, { message: "Plan Description must be at least 1 character long" }),
   included_minutes: z.string().min(1, { message: "Included Minutes is required" }),
   plan_price: z.string().min(1, { message: "Plan Price is required" }),
 });
@@ -26,15 +27,28 @@ export async function POST(request: NextRequest) {
 
   try {
     formSchema.parse(data);
-    const { plan_name, included_minutes, plan_price } = data;
+    const { plan_name, plan_description, included_minutes, plan_price } = data;
 
     // Insert into MySQL
     const [result] = await pool.query(
-      "INSERT INTO price_plans (plan_name, included_minutes, plan_price) VALUES (?, ?, ?)",
-      [plan_name, included_minutes, plan_price]
+      "INSERT INTO price_plans (plan_name, plan_description, included_minutes, plan_price) VALUES (?, ?, ?, ?)",
+      [plan_name, plan_description, included_minutes, plan_price]
     ) as [ResultSetHeader, any];
 
     if (result.affectedRows === 1) {
+      // logic to add to php
+      await fetch("https://fbc.versal.tech/stripe/create_product.php/", {
+        method: "POST",
+        headers: {
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+          productName: plan_name,
+          productDescription: plan_description,
+          price: plan_price,
+        })
+      })
+
       return NextResponse.json({
         success: true,
         message: "Plan added successfully!",
