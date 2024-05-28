@@ -108,6 +108,7 @@ export async function POST(request: NextRequest) {
     if (result.affectedRows === 1) {
       return NextResponse.json({
         success: true,
+        data: _data.data,
         message: "Item added successfully!",
       });
     } else {
