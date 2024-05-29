@@ -105,6 +105,7 @@ export async function POST(request: NextRequest) {
 
     // Insert into MySQL
     const [result] = await pool.query(
+
       "INSERT INTO customers (fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_sip_trunk_usage, cloud_server_hosting_subscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_sip_trunk_usage, cloud_server_hosting_subscription]
     ) as [ResultSetHeader, any];
@@ -121,7 +122,7 @@ export async function POST(request: NextRequest) {
           "Content-Type":"application/json"
         },
         body: JSON.stringify({
-          userEmail: email,
+          userId: result.insertId,
         })
       }).then(res=>{
         if (!res.ok){
@@ -137,7 +138,7 @@ export async function POST(request: NextRequest) {
 
         // Fetch all plans (adjust the query as needed)
          await connection.query(
-          `DELETE FROM customers WHERE email = '${email}'`
+          `DELETE FROM customers WHERE id = '${result.insertId}'`
         );
         connection.release(); // Important: Release the connection back to the pool
 
