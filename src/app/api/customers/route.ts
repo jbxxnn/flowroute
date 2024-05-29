@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({success:false, errors: _data.error}, {status:400})
     }
 
-    const {fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_sip_trunk_usage, cloud_server_hosting_subscription} = _data.data
+    const {fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_billing_plan, metered_sip_trunk_usage, cloud_server_hosting_subscription} = _data.data
 
     // add to db -> add to stripe 
     // if stripe fails -> delete user in db
@@ -51,8 +51,8 @@ export async function POST(request: NextRequest) {
     // Insert into MySQL
     const [result] = await pool.query(
 
-      "INSERT INTO customers (fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_sip_trunk_usage, cloud_server_hosting_subscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_sip_trunk_usage, cloud_server_hosting_subscription]
+      "INSERT INTO customers (fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, product_id, metered_sip_trunk_usage, cloud_server_hosting_subscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_billing_plan, metered_sip_trunk_usage, cloud_server_hosting_subscription]
     ) as [ResultSetHeader, any];
     console.log({result})
 
