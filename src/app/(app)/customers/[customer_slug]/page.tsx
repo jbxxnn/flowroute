@@ -68,52 +68,52 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
         <div className="container mx-auto min-h-[200px] grid md:grid-cols-4 gap-4">
           <div className="md:col-span-3 bg-white p-4 space-y-8 shadow-lg">
             <section className="space-y-2">
-              <h2 className="text-lg font-bold">
+              <h2 className="text-m font-bold">
                 Subscriptions
               </h2>
               <ul>
-                <li>Subscription</li>
+                <li className="text-sm">Subscription</li>
               </ul>
             </section>
             <section className="space-y-2 border-t py-4">
-              <h2 className="text-lg font-bold">
+              <h2 className="text-m font-bold">
                 Payments
               </h2>
-              <div className="border border-dashed p-8 grid place-items-center text-center">
+              <div className="border border-dashed p-8 grid place-items-center text-center text-sm">
                 <p>No payments yet</p>
               </div>
               <ul>
-                <li>Payment</li>
+                <li className="text-sm">Payment</li>
               </ul>
             </section>
             <section className="space-y-2 border-t py-4">
-              <h2 className="text-lg font-bold">
+              <h2 className="text-m font-bold">
                 Payment Methods
               </h2>
               <ul>
-                <li>Payment method</li>
+                <li className="text-sm">Payment method</li>
               </ul>
             </section>
             <section className="space-y-2 border-t py-4">
-              <h2 className="text-lg font-bold">
+              <h2 className="text-m font-bold">
                 Invioces
               </h2>
               <ul>
-                <li>Invoice</li>
+                <li className="text-sm">Invoice</li>
               </ul>
             </section>
             <section className="space-y-2 border-t py-4">
-              <h2 className="text-lg font-bold">
+              <h2 className="text-m font-bold">
                 Pending Invoices
               </h2>
               <ul>
-                <li>Invoice</li>
+                <li className="text-sm">Invoice</li>
               </ul>
             </section>
           </div>
           <div className="bg-white p-4 space-y-8 shadow-lg">
             <section className="space-y-2">
-              <h2 className="text-lg font-bold">
+              <h2 className="text-sm font-bold">
                 Insights
               </h2>
               <ul>
@@ -126,7 +126,7 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
               </ul>
             </section>
             <section className="space-y-2 border-t py-4">
-              <h2 className="text-lg font-bold">
+              <h2 className="text-sm font-bold">
                 Details
               </h2>
               <ul className="space-y-2">

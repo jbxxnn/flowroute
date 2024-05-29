@@ -71,11 +71,6 @@ export const columns: ColumnDef<Customer>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(customer.customer_id)}
-            >
-              Copy customer ID
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Link href={`/customers/${customer.customer_id}`}>

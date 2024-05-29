@@ -62,6 +62,7 @@ export async function POST(request: NextRequest) {
         productName: plan_name,
         productDescription: plan_description,
         price: plan_price,
+        minutes: included_minutes,
       })
     }).then(res=>res.text()).then(async(res)=>{
       console.log(res)
