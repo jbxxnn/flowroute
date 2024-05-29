@@ -17,6 +17,7 @@ import { Form } from '@/components/ui/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCustomerAPI } from './misc/apis';
 import { useRouter } from 'next/navigation';
+import { fetchPlansQuery } from '../plans/misc/queries';
 
 
 const extra_field_options = [
@@ -76,6 +77,8 @@ interface ProfileFormProps {
 
 export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
   const router = useRouter()
+
+  const {data:plans, isLoading, isError, error} = fetchPlansQuery()
 
   const query_key = ['customers']
   const query_client = useQueryClient()
@@ -205,7 +208,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
               <div className='space-y-2'>
                 <label>
                   Customer Billing Day
-                  <Select  value={String(form.watch('billing_day'))} onValueChange={value=>form.setValue("billing_day", Number(value))}>
+                  <Select {...form.register('billing_day')} value={String(form.watch('billing_day'))} onValueChange={value=>form.setValue("billing_day", Number(value))}>
                     <SelectTrigger className="">
                       <SelectValue placeholder="Select customer billing day" />
                     </SelectTrigger>
@@ -225,7 +228,22 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
               <div className='space-y-2'>
                 <label>
                   Metered Billing Plan
-                  <Input {...form.register('metered_billing_plan')} />
+                  <Select {...form.register('metered_billing_plan')} name="metered billing plan" value={form.watch("metered_billing_plan")} onValueChange={val=>form.setValue("metered_billing_plan", val)}>
+                    <SelectTrigger className="">
+                      <SelectValue placeholder="Select a value" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {isLoading ? (
+                        <p>Loading plans...</p>
+                      ): isError ? (
+                          <p className='text-red-500 text-sm'>Error loading plans</p>
+                        ): 
+                          plans?.map(option=>(
+                            <SelectItem key={option.id} value={String(option.id)}>{option.plan_name}</SelectItem>
+                          ))
+                      }
+                    </SelectContent>
+                  </Select>
                 </label>
                 {form.formState.errors.metered_billing_plan && <span className='label-error'>{form.formState.errors.metered_billing_plan.message}</span>}
               </div>
