@@ -52,6 +52,7 @@ export async function POST(request: NextRequest) {
     formSchema.parse(data);
     const { plan_name, plan_description, included_minutes, plan_price } = data;
 
+
     // Insert into MySQL
     const [result] = await pool.query(
       "INSERT INTO price_plans (plan_name, plan_description, included_minutes, plan_price) VALUES (?, ?, ?, ?)",
@@ -59,7 +60,8 @@ export async function POST(request: NextRequest) {
     ) as [ResultSetHeader, any];
 
     if (result.affectedRows === 1) {
-      // logic to add to php
+
+      // logic to add to stripe
       await fetch("https://fbc.versal.tech/stripe/create_product.php/", {
         method: "POST",
         headers: {
@@ -70,7 +72,25 @@ export async function POST(request: NextRequest) {
           productDescription: plan_description,
           price: plan_price,
         })
-      }).then(res=>res.text()).then(res=>console.log(res))
+      }).then(res=>res.text()).then(async(res)=>{
+        console.log(res)
+      })
+
+      .catch(async (error)=>{
+
+        /* const connection = await pool.getConnection();  */
+        /* // Fetch all plans (adjust the query as needed) */
+        /*  await connection.query( */
+        /*   `DELETE FROM price_plans WHERE id = '${id}'` */
+        /* ); */
+        /* connection.release(); // Important: Release the connection back to the pool */
+
+
+        return NextResponse.json(
+          { success: false, message: `Failed to add plan to stripe. ${JSON.stringify(error)}` },
+          { status: 500 }
+        );
+      })
 
       return NextResponse.json({
         success: true,
@@ -82,6 +102,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
   } catch (error: any) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ success: false, errors: error.format() }, {

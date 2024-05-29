@@ -92,20 +92,58 @@ export async function POST(request: NextRequest) {
 
   try {
     const _data = formSchema.safeParse(data);
+
+
     if (!_data.success){
       return NextResponse.json({success:false, errors: _data.error}, {status:400})
     }
 
-    const id = "some random id"
     const {fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_sip_trunk_usage, cloud_server_hosting_subscription} = _data.data
+
+    // add to db -> add to stripe 
+    // if stripe fails -> delete user in db
 
     // Insert into MySQL
     const [result] = await pool.query(
       "INSERT INTO customers (fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_sip_trunk_usage, cloud_server_hosting_subscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
       [fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, metered_sip_trunk_usage, cloud_server_hosting_subscription]
     ) as [ResultSetHeader, any];
+    console.log({result})
 
     if (result.affectedRows === 1) {
+
+      console.log("Going to stripe")
+
+      // save to stripe
+      await fetch("https://fbc.versal.tech/stripe/customer_stripe.php/", {
+        method: "POST",
+        headers: {
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+          userEmail: email,
+        })
+      }).then(res=>{
+        if (!res.ok){
+          console.log({res:JSON.stringify(res)})
+          throw ("error")
+        }
+        return res.text()
+      }).then(async (res)=>{
+        console.log({res})
+      }).catch(async (error)=>{
+        console.log("error",{error})
+        const connection = await pool.getConnection(); 
+
+        // Fetch all plans (adjust the query as needed)
+         await connection.query(
+          `DELETE FROM customers WHERE email = '${email}'`
+        );
+        connection.release(); // Important: Release the connection back to the pool
+
+        throw `Error saving user on stripe ${JSON.stringify(error)}` 
+      })
+
       return NextResponse.json({
         success: true,
         data: _data.data,
@@ -117,6 +155,7 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
   } catch (error: any) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ success: false, errors: error.format() }, {
