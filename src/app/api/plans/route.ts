@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
 
     // Fetch all plans (adjust the query as needed)
     const [rows] = await connection.query(
-      "SELECT * FROM plans"
+      "SELECT * FROM price_plans"
     );
 
     connection.release(); // Important: Release the connection back to the pool
