@@ -52,57 +52,30 @@ export async function POST(request: NextRequest) {
     formSchema.parse(data);
     const { plan_name, plan_description, included_minutes, plan_price } = data;
 
-
-    // Insert into MySQL
-    const [result] = await pool.query(
-      "INSERT INTO price_plans (plan_name, plan_description, included_minutes, plan_price) VALUES (?, ?, ?, ?)",
-      [plan_name, plan_description, included_minutes, plan_price]
-    ) as [ResultSetHeader, any];
-
-    if (result.affectedRows === 1) {
-
-      // logic to add to stripe
-      await fetch("https://fbc.versal.tech/stripe/create_product.php/", {
-        method: "POST",
-        headers: {
-          "Content-Type":"application/json"
-        },
-        body: JSON.stringify({
-          productName: plan_name,
-          productDescription: plan_description,
-          price: plan_price,
-        })
-      }).then(res=>res.text()).then(async(res)=>{
-        console.log(res)
+    // logic to add to stripe
+    await fetch("https://fbc.versal.tech/stripe/create_product.php/", {
+      method: "POST",
+      headers: {
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify({
+        productName: plan_name,
+        productDescription: plan_description,
+        price: plan_price,
       })
+    }).then(res=>res.text()).then(async(res)=>{
+      console.log(res)
+    })
 
-      .catch(async (error)=>{
+    .catch(async (error)=>{
+      console.error({error})
+      throw "Failed to add plan to stripe."
+    })
 
-        /* const connection = await pool.getConnection();  */
-        /* // Fetch all plans (adjust the query as needed) */
-        /*  await connection.query( */
-        /*   `DELETE FROM price_plans WHERE id = '${id}'` */
-        /* ); */
-        /* connection.release(); // Important: Release the connection back to the pool */
-
-
-        return NextResponse.json(
-          { success: false, message: `Failed to add plan to stripe. ${JSON.stringify(error)}` },
-          { status: 500 }
-        );
-      })
-
-      return NextResponse.json({
-        success: true,
-        message: "Plan added successfully!",
-      });
-    } else {
-      return NextResponse.json(
-        { success: false, message: "Failed to add plan." },
-        { status: 500 }
-      );
-    }
-
+    return NextResponse.json({
+      success: true,
+      message: "Plan added successfully!",
+    });
   } catch (error: any) {
     if (error instanceof z.ZodError) {
       return NextResponse.json({ success: false, errors: error.format() }, {
