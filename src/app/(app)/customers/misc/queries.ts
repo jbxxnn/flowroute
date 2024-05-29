@@ -23,6 +23,6 @@ export function fetchCustomersQuery({queryKey=[]}:FetchCustomersProps = {}){
 export function fetchCustomerQuery({customer_slug, queryKey=[]}:FetchCustomerProps){
   return useQuery({
     queryFn: async()=> await fetchCustomerAPI(customer_slug),
-    queryKey: BASE_QUERY_KEYS.concat(queryKey)
+    queryKey: BASE_QUERY_KEYS.concat([...queryKey, customer_slug])
   })
 }

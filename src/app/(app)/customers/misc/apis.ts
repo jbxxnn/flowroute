@@ -21,5 +21,11 @@ export async function fetchCustomersAPI():Promise<Customer[]>{
 
 
 export async function fetchCustomerAPI(customer_slug:string):Promise<Customer>{
-  return await fetch(`/api/customers/${customer_slug}`).then(res=>res.json())
+  return await fetch(`/api/customers/${customer_slug}`).then(async (res)=>{
+    const _res = await res.json()
+    if (res.ok){
+      return _res
+    }
+    throw _res
+  })
 }

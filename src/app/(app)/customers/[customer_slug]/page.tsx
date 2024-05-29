@@ -22,14 +22,18 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
   if (isLoading){
     return (
       <BaseLayout>
-        Loading
+        <div className="max-w-2xl mx-auto p-4 bg-white grid place-items-center">
+          Loading customer...
+        </div>
       </BaseLayout>
     )
   }
-  else if (isError){
+  if (isError){
     return (
       <BaseLayout>
-        <p>Error loading customer, {error.message||"something went wrong"}</p>
+        <div className="max-w-2xl mx-auto p-4 bg-white grid place-items-center">
+          <p className="text-red-500">{error.message||"something went wrong"}</p>
+        </div>
       </BaseLayout>
     )
   }
