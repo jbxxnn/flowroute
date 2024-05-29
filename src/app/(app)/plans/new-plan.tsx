@@ -19,23 +19,7 @@ import { useMutation } from '@tanstack/react-query';
 import { createNewPlanAPI } from './misc/apis';
 import { useRouter } from 'next/navigation';
 import { Textarea } from '@/components/ui/textarea';
-
-
-const formSchema = z.object({
-  plan_name: z.string().min(2, {
-    message: 'Plan name must be at least 2 characters.',
-  }),
-  plan_description: z.string().min(2, {
-    message: 'Plan description must be at least 2 characters.',
-  }),
-  included_minutes: z.string().min(2, {
-    message: 'Included minutes must be a number.',
-  }),
-  plan_price: z.string().min(2, {
-    message: 'Plan Price must be a number.',
-  }),
-
-});
+import { planFormSchema } from './misc/zod';
 
 
 
@@ -51,11 +35,11 @@ export function AddForm() {
     }
   })
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof planFormSchema>>({
+    resolver: zodResolver(planFormSchema),
   });
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: z.infer<typeof planFormSchema>) => {
     addPlanMutation.mutate(data)
   };
 
