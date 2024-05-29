@@ -5,6 +5,7 @@ import "./globals.css";
 
 import { ThemeProvider } from "@/providers/theme-provider";
 import Providers from "@/providers";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -45,6 +46,7 @@ export default function RootLayout({
       <body className={GeistSans.className}>
         <Providers>
           {children}
+          <Toaster richColors />
         </Providers>
       </body>
     </html>
