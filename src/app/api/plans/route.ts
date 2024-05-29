@@ -3,13 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import * as z from "zod";
 import { ResultSetHeader } from "mysql2/promise";
 import { pool } from "@/lib/misc/my_sql";
-
-const formSchema = z.object({
-  plan_name: z.string().min(1, { message: "Plan Name must be at least 1 character long" }),
-  plan_description: z.string().min(1, { message: "Plan Description must be at least 1 character long" }),
-  included_minutes: z.string().min(1, { message: "Included Minutes is required" }),
-  plan_price: z.string().min(1, { message: "Plan Price is required" }),
-});
+import { planFormSchema } from "@/app/(app)/plans/misc/zod";
 
 export async function GET(request: NextRequest) {
   try {
@@ -38,7 +32,7 @@ export async function POST(request: NextRequest) {
   const data = await request.json();
 
   try {
-    formSchema.parse(data);
+    planFormSchema.parse(data);
     const { plan_name, plan_description, included_minutes, plan_price } = data;
 
     // logic to add to stripe
