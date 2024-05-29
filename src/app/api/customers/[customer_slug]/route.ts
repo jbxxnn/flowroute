@@ -22,7 +22,7 @@ export async function GET(request: NextApiRequest, {params}:{params:{customer_sl
     const connection = await pool.getConnection(); 
 
     const [rows] = await connection.query(
-      `SELECT * FROM customers WHERE email='${customer_slug}' LIMIT 1`
+      `SELECT * FROM customers WHERE customer_id='${customer_slug}' LIMIT 1`
     );
 
     let _rows = rows  as unknown as Customer[]

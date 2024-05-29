@@ -138,17 +138,19 @@ export async function POST(request: NextRequest) {
 
         // Fetch all plans (adjust the query as needed)
          await connection.query(
-          `DELETE FROM customers WHERE id = '${result.insertId}'`
+          `DELETE FROM customers WHERE customer_id = '${result.insertId}'`
         );
         connection.release(); // Important: Release the connection back to the pool
 
         throw `Error saving user on stripe ${JSON.stringify(error)}` 
       })
 
+
       return NextResponse.json({
         success: true,
-        data: _data.data,
+        data: {..._data.data, customer_id:result.insertId},
         message: "Item added successfully!",
+        id: result.insertId,
       });
     } else {
       return NextResponse.json(

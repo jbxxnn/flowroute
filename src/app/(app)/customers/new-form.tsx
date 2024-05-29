@@ -87,7 +87,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
       query_client.refetchQueries({
         queryKey:query_key
       })
-      router.push(`/customers/${result.data.email}`)
+      router.push(`/customers/${result.data.customer_id}`)
     }
   })
   
