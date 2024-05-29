@@ -1,19 +1,8 @@
 import { NextResponse } from "next/server";
-import mysql from "mysql2/promise";
 import { NextApiRequest } from "next";
 import { Customer } from "@/lib/types/customers";
+import { pool } from "@/lib/misc/my_sql";
 
-
-// MySQL Connection Configuration (Environment Variables recommended)
-const pool = mysql.createPool({
-  host: process.env.MYSQL_HOST,
-  user: process.env.MYSQL_USER,
-  password: process.env.MYSQL_PASSWORD,
-  database: process.env.MYSQL_DATABASE,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-});
 
 export async function GET(request: NextApiRequest, {params}:{params:{customer_slug:string}}) {
   const customer_slug = params.customer_slug
