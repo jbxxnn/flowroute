@@ -19,6 +19,10 @@ export async function fetchCustomersAPI():Promise<Customer[]>{
   return await fetch("/api/customers").then(res=>res.json())
 }
 
+export async function createCustomerSubscription(customer_slug:string):Promise<void>{
+  return await fetch(`/api/customers/${customer_slug}/create-subscription`, {method:"POST"}).then(res=>res.json())
+}
+
 
 export async function fetchCustomerAPI(customer_slug:string):Promise<Customer>{
   return await fetch(`/api/customers/${customer_slug}`).then(async (res)=>{

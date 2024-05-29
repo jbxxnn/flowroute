@@ -3,6 +3,8 @@
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Button } from "@/components/ui/button";
 import { fetchCustomerQuery } from "../misc/queries";
+import { useMutation } from "@tanstack/react-query";
+import { createCustomerSubscription } from "../misc/apis";
 
 function BaseLayout({children}:{children:React.ReactNode}){
   return (
@@ -17,7 +19,17 @@ function BaseLayout({children}:{children:React.ReactNode}){
 }
 
 export default function CustomerDetail({params}:{params: {customer_slug:string}}){
-  const {data, isLoading, isError, error} = fetchCustomerQuery({customer_slug:params.customer_slug})
+  const {data, refetch, isLoading, isError, error} = fetchCustomerQuery({customer_slug:params.customer_slug})
+  const createSubscriptionMutation = useMutation({
+    mutationFn:createCustomerSubscription,
+    onSuccess: ()=>{
+      refetch()
+    }
+  })
+
+  function handleCreateUserSubscription(){
+    createSubscriptionMutation.mutate(params.customer_slug)
+  }
 
   if (isLoading){
     return (
@@ -60,7 +72,7 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
               }
             </ul>
             <div className="flex gap-2">
-              <Button>
+              <Button busy={createSubscriptionMutation.isPending} onClick={handleCreateUserSubscription}>
                 Create Subscription
               </Button>
               <Button variant="outline">
