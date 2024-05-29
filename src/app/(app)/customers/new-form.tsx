@@ -19,6 +19,7 @@ import { addCustomerAPI } from './misc/apis';
 import { useRouter } from 'next/navigation';
 import { fetchPlansQuery } from '../plans/misc/queries';
 import { customerFormSchema } from './misc/zod';
+import { toast } from 'sonner';
 
 
 const extra_field_options = [
@@ -48,7 +49,13 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
         queryKey:query_key
       })
       router.push(`/customers/${result.data.customer_id}`)
+      toast.success("Customer created successfully!")
+    },
+    onError: ()=>{
+
+      toast.error("Error creating customer")
     }
+
   })
   
   const form = useForm<z.infer<typeof customerFormSchema>>({

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { fetchCustomerQuery } from "../misc/queries";
 import { useMutation } from "@tanstack/react-query";
 import { createCustomerSubscription } from "../misc/apis";
+import { toast } from "sonner";
 
 function BaseLayout({children}:{children:React.ReactNode}){
   return (
@@ -23,7 +24,11 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
   const createSubscriptionMutation = useMutation({
     mutationFn:createCustomerSubscription,
     onSuccess: ()=>{
+      toast.success("Subscription created successfully!")
       refetch()
+    },
+    onError: ()=>{
+      toast.error("Error creating subscription")
     }
   })
 

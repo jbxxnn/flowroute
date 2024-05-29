@@ -20,6 +20,7 @@ import { createNewPlanAPI } from './misc/apis';
 import { useRouter } from 'next/navigation';
 import { Textarea } from '@/components/ui/textarea';
 import { planFormSchema } from './misc/zod';
+import { toast } from 'sonner';
 
 
 
@@ -31,7 +32,11 @@ export function AddForm() {
     mutationFn: createNewPlanAPI,
     onSuccess: (result)=>{
       form.reset();
+      toast.success("Plan created successfully!")
       router.push(`/plans/${result.id}`)
+    },
+    onError: (e) => {
+      toast.error("Error creating plan.")
     }
   })
 
