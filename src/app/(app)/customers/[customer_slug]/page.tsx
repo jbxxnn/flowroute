@@ -65,8 +65,92 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
             </div>
           </div>
         </div>
-        <div className="container mx-auto min-h-[200px] bg-white p-4">
-          some extra information
+        <div className="container mx-auto min-h-[200px] grid md:grid-cols-4 gap-4">
+          <div className="md:col-span-3 bg-white p-4 space-y-8 shadow-lg">
+            <section className="space-y-2">
+              <h2 className="text-lg font-bold">
+                Subscriptions
+              </h2>
+              <ul>
+                <li>Subscription</li>
+              </ul>
+            </section>
+            <section className="space-y-2 border-t py-4">
+              <h2 className="text-lg font-bold">
+                Payments
+              </h2>
+              <div className="border border-dashed p-8 grid place-items-center text-center">
+                <p>No payments yet</p>
+              </div>
+              <ul>
+                <li>Payment</li>
+              </ul>
+            </section>
+            <section className="space-y-2 border-t py-4">
+              <h2 className="text-lg font-bold">
+                Payment Methods
+              </h2>
+              <ul>
+                <li>Payment method</li>
+              </ul>
+            </section>
+            <section className="space-y-2 border-t py-4">
+              <h2 className="text-lg font-bold">
+                Invioces
+              </h2>
+              <ul>
+                <li>Invoice</li>
+              </ul>
+            </section>
+            <section className="space-y-2 border-t py-4">
+              <h2 className="text-lg font-bold">
+                Pending Invoices
+              </h2>
+              <ul>
+                <li>Invoice</li>
+              </ul>
+            </section>
+          </div>
+          <div className="bg-white p-4 space-y-8 shadow-lg">
+            <section className="space-y-2">
+              <h2 className="text-lg font-bold">
+                Insights
+              </h2>
+              <ul>
+                <li>
+                  <div>
+                    <h3 className="text-gray-400 font-semibold">Spent</h3>
+                    <p className="text-lg">$2,934.02</p>
+                  </div>
+                </li>
+              </ul>
+            </section>
+            <section className="space-y-2 border-t py-4">
+              <h2 className="text-lg font-bold">
+                Details
+              </h2>
+              <ul className="space-y-2">
+                <li>
+                  <div>
+                    <h3 className="text-gray-400 font-semibold">Customer ID</h3>
+                    <p className="text-lg">{data?.customer_id}</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h3 className="text-gray-400 font-semibold">Customer since</h3>
+                    <p className="text-lg">{new Date().toLocaleDateString()}</p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <h3 className="text-gray-400 font-semibold">Billing details</h3>
+                    <p className="text-lg">Billing details</p>
+                  </div>
+                </li>
+              </ul>
+            </section>
+          </div>
         </div>
       </main>
     </BaseLayout>
