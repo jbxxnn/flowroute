@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
+import {Raleway} from "next/font/google"
+
+const raleway_font = Raleway({subsets:['latin']})
 
 import "./globals.css";
 
@@ -43,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={GeistSans.className}>
+      <body className={raleway_font.className}>
         <Providers>
           {children}
           <Toaster richColors />
