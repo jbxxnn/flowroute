@@ -90,9 +90,9 @@ export function DataTable<TData, TValue>({
         <div className="w-[75%]">
           <Input
             placeholder="Filter by names..."
-            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            value={(table.getColumn("plan_name")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              table.getColumn("name")?.setFilterValue(event.target.value)
+              table.getColumn("plan_name")?.setFilterValue(event.target.value)
             }
             className="max-w-sm"
           />

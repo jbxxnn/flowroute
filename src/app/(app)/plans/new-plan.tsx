@@ -6,7 +6,13 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import {
   Form,
   FormField,
@@ -72,7 +78,7 @@ export function AddForm() {
             <FormItem>
               <FormLabel>Included Minutes</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Enter Included Minutes" {...field} />
+                <Input placeholder="Enter Included Minutes" {...field} type="number" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,12 +91,29 @@ export function AddForm() {
             <FormItem>
               <FormLabel>Plan Price</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Enter Plan Price" {...field} />
+                <Input type="number" placeholder="Enter Plan Price" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
+        <div className='space-y-2'>
+          <label>
+            Plan type
+            <Select {...form.register('plan_type')} value={form.watch("plan_type")} onValueChange={val=>form.setValue("plan_type", val)}>
+              <SelectTrigger className="capitalize">
+                <SelectValue placeholder="Select a plan type" />
+              </SelectTrigger>
+              <SelectContent className="capitalize">
+                {["primary", "secondary"].map(option=>(
+                  <SelectItem key={option} value={option}>{option}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </label>
+          {form.formState.errors.plan_type && <span className='label-error'>{form.formState.errors.plan_type.message}</span>}
+        </div>
 
         <FormField
           control={form.control}

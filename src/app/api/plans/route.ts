@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
 
   try {
     planFormSchema.parse(data);
-    const { plan_name, plan_description, included_minutes, plan_price } = data;
+    const { plan_name, plan_type, plan_description, included_minutes, plan_price } = data;
 
     // logic to add to stripe
     await fetch("https://fbc.versal.tech/stripe/create_product.php/", {
@@ -46,6 +46,7 @@ export async function POST(request: NextRequest) {
         productDescription: plan_description,
         price: plan_price,
         minutes: included_minutes,
+        plan_type,
       })
     }).then(res=>res.text()).then(async(res)=>{
       console.log(res)
