@@ -69,8 +69,8 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
                 ].map(item=>(
                   <li key={item.name} className="px-4">
                     <div>
-                      <h3 className="uppercase text-gray-500">{item.name}</h3>
-                      <p className="text-xl">{item.value}</p>
+                      <h3 className="capitalize text-black-500 text-sm font-medium">{item.name}</h3>
+                      <p className="text-sm text-gray-500 font-normal">{item.value}</p>
                     </div>
                   </li>
                 ))
@@ -89,84 +89,84 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
         <div className="container mx-auto min-h-[200px] grid md:grid-cols-4 gap-4">
           <div className="md:col-span-3 bg-white p-4 space-y-8 shadow-lg">
             <section className="space-y-2">
-              <h2 className="text-m font-bold">
+              <h2 className="capitalize text-black-500 text-sm font-medium">
                 Subscriptions
               </h2>
               <ul>
-                <li className="text-sm">Subscription</li>
+                <li className="text-sm text-gray-500 font-normal">Subscription</li>
               </ul>
             </section>
             <section className="space-y-2 border-t py-4">
-              <h2 className="text-m font-bold">
+              <h2 className="capitalize text-black-500 text-sm font-medium">
                 Payments
               </h2>
               <div className="border border-dashed p-8 grid place-items-center text-center text-sm">
                 <p>No payments yet</p>
               </div>
               <ul>
-                <li className="text-sm">Payment</li>
+                <li className="text-sm text-gray-500 font-normal">Payment</li>
               </ul>
             </section>
             <section className="space-y-2 border-t py-4">
-              <h2 className="text-m font-bold">
+              <h2 className="capitalize text-black-500 text-sm font-medium">
                 Payment Methods
               </h2>
               <ul>
-                <li className="text-sm">Payment method</li>
+                <li className="text-sm text-gray-500 font-normal">Payment method</li>
               </ul>
             </section>
             <section className="space-y-2 border-t py-4">
-              <h2 className="text-m font-bold">
+              <h2 className="capitalize text-black-500 text-sm font-medium">
                 Invioces
               </h2>
               <ul>
-                <li className="text-sm">Invoice</li>
+                <li className="text-sm text-gray-500 font-normal">Invoice</li>
               </ul>
             </section>
             <section className="space-y-2 border-t py-4">
-              <h2 className="text-m font-bold">
+              <h2 className="capitalize text-black-500 text-sm font-medium">
                 Pending Invoices
               </h2>
               <ul>
-                <li className="text-sm">Invoice</li>
+                <li className="text-sm text-gray-500 font-normal">Invoice</li>
               </ul>
             </section>
           </div>
           <div className="bg-white p-4 space-y-8 shadow-lg">
             <section className="space-y-2">
-              <h2 className="text-sm font-bold">
+              <h2 className="capitalize text-black-500 text-sm font-medium">
                 Insights
               </h2>
               <ul>
                 <li>
                   <div>
-                    <h3 className="text-gray-400 font-semibold">Spent</h3>
-                    <p className="text-lg">$2,934.02</p>
+                    <h3 className="text-sm text-gray-500 font-normal">Spent</h3>
+                    <p className="text-sm text-black-500 font-bold">$2,934.02</p>
                   </div>
                 </li>
               </ul>
             </section>
             <section className="space-y-2 border-t py-4">
-              <h2 className="text-sm font-bold">
+              <h2 className="capitalize text-black-500 text-sm font-medium">
                 Details
               </h2>
               <ul className="space-y-2">
                 <li>
                   <div>
-                    <h3 className="text-gray-400 font-semibold">Customer ID</h3>
-                    <p className="text-lg">{data?.customer_id}</p>
+                    <h3 className="text-sm text-gray-500 font-normal">Customer ID</h3>
+                    <p className="text-sm text-black-500 font-bold">{data?.customer_id}</p>
                   </div>
                 </li>
                 <li>
                   <div>
-                    <h3 className="text-gray-400 font-semibold">Customer since</h3>
-                    <p className="text-lg">{new Date().toLocaleDateString()}</p>
+                    <h3 className="text-sm text-gray-500 font-normal">Customer since</h3>
+                    <p className="text-sm text-black-500 font-bold">{new Date().toLocaleDateString()}</p>
                   </div>
                 </li>
                 <li>
                   <div>
-                    <h3 className="text-gray-400 font-semibold">Billing details</h3>
-                    <p className="text-lg">Billing details</p>
+                    <h3 className="text-sm text-gray-500 font-normal">Billing details</h3>
+                    <p className="text-sm text-black-500 font-bold">Billing details</p>
                   </div>
                 </li>
               </ul>
