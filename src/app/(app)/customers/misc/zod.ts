@@ -1,7 +1,8 @@
 
 import * as z from "zod";
 
-export const customerFormSchema = z.object({
+export const customerFormSchema = z
+.object({
   fullname: z.string().min(2, {
     message: 'Name must be at least 2 characters.',
   }),
@@ -31,18 +32,54 @@ export const customerFormSchema = z.object({
   secret_key: z.string().min(2, {
     message: 'Customer Secret Key must be at least 2 characters.',
   }),
+  billing_day: z.number(),
 
-  extra_field: z.string(),
+  subscription_type: z.string({required_error: "A subscription type is required"}),
 
-  billing_day: z.number({required_error:"This field is required"}),
-  metered_billing_plan: z.string().min(2, {
-    message: 'Metered Billing Plan must be at least 2 characters.',
-  }),
+  //primary
+  phone_plan: z.string().optional(),
 
-  metered_sip_trunk_usage: z.string({required_error:'SIP Trunk usage is required.'}).min(1, {
-    message: 'SIP Trunk usage must be at least 2 characters.',
-  }),
-  cloud_server_hosting_subscription: z.string({required_error: 'Cloud Server Hosting Subscription is required'}).min(1, {
-    message: 'Cloud Server Hosting Subscription must be greater than 0.',
-  }),
+  //secondary
+  metered_billing_plan: z.string().optional(),
+  metered_sip_trunk_usage: z.string().optional(),
+  cloud_server_hosting_subscription: z.string().optional(),
+
+})
+.superRefine(({subscription_type, phone_plan, metered_sip_trunk_usage, metered_billing_plan, cloud_server_hosting_subscription}, ctx)=>{
+
+  if (subscription_type === "primary" ) {
+    if (phone_plan===undefined) {
+      ctx.addIssue({
+        code: "custom",
+        message: "A plan type is required",
+        path: ["phone_plan"]
+      })
+    }
+  }
+
+  if (subscription_type === "secondary" ) {
+
+    if (metered_billing_plan===undefined) {
+      ctx.addIssue({
+        code: "custom",
+        message: "This field is required",
+        path: ["metered_billing_plan"]
+      })
+    }
+    if (metered_sip_trunk_usage===undefined) {
+      ctx.addIssue({
+        code: "custom",
+        message: "This field is required",
+        path: ["metered_sip_trunk_usage"]
+      })
+    }
+    if (cloud_server_hosting_subscription===undefined) {
+      ctx.addIssue({
+        code: "custom",
+        message: "This field is required",
+        path: ["cloud_server_hosting_subscription"]
+      })
+    }
+    
+  }
 });

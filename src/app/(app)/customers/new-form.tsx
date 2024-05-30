@@ -20,23 +20,52 @@ import { useRouter } from 'next/navigation';
 import { fetchPlansQuery } from '../plans/misc/queries';
 import { customerFormSchema } from './misc/zod';
 import { toast } from 'sonner';
-
-
-const extra_field_options = [
-  {id: "default", title: "default"},
-  {id: "other", title: "other"},
-] as const;
+import { PLAN_TYPES } from '@/lib/constants';
+import { PlanTypes } from '@/lib/types/plans';
 
 
 interface ProfileFormProps {
   onSubmitted?: () => void;
 }
 
+type PlanSelectProps = {
+  label:string;
+  field:string;
+  type:PlanTypes;
+  form: any
+}
+
+export function PlanSelect({label, form, field, type}:PlanSelectProps){
+  const {data:plans, isLoading, isError, error} = fetchPlansQuery()
+  return (
+    <div className='space-y-2'>
+      <label>
+        {label}
+        <Select {...form.register(field)} name={label} value={form.watch(field)} onValueChange={val=>form.setValue(field, val)}>
+          <SelectTrigger className="">
+            <SelectValue placeholder="Select a value" />
+          </SelectTrigger>
+          <SelectContent>
+            {isLoading ? (
+              <p>Loading plans...</p>
+            ): isError ? (
+                <p className='text-red-500 text-sm'>Error loading plans</p>
+              ): 
+                plans?.filter(plan=>plan.plan_type===type).map(option=>(
+                  <SelectItem key={option.id} value={String(option.id)}>{option.plan_name}</SelectItem>
+                ))
+            }
+          </SelectContent>
+        </Select>
+      </label>
+      {form.formState.errors?.[field] && <span className='label-error'>{form.formState.errors?.[field].message}</span>}
+    </div>
+  )
+}
 
 export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
   const router = useRouter()
 
-  const {data:plans, isLoading, isError, error} = fetchPlansQuery()
 
   const query_key = ['customers']
   const query_client = useQueryClient()
@@ -52,7 +81,6 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
       toast.success("Customer created successfully!")
     },
     onError: ()=>{
-
       toast.error("Error creating customer")
     }
 
@@ -62,7 +90,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
     resolver: zodResolver(customerFormSchema),
     defaultValues: {
       fullname: '',
-      extra_field: 'default',
+      subscription_type: PLAN_TYPES[0],
     },
   });
 
@@ -150,69 +178,57 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
 
         <div className='space-y-2'>
           <label>
-            Extra Field
-            <Select {...form.register('extra_field')} value={form.watch("extra_field")} onValueChange={val=>form.setValue("extra_field", val)}>
+            Customer Billing Day
+            <Select {...form.register('billing_day')} value={String(form.watch('billing_day'))} onValueChange={value=>form.setValue("billing_day", Number(value))}>
               <SelectTrigger className="">
-                <SelectValue placeholder="Select a value" />
+                <SelectValue placeholder="Select customer billing day" />
               </SelectTrigger>
               <SelectContent>
-                {extra_field_options.map(option=>(
-                  <SelectItem key={option.id} value={option.id}>{option.title}</SelectItem>
+                {
+                  Array.from(Array(31).keys()).map((day=>(
+                    <SelectItem key={day} value={String(day+1)}>{day+1}</SelectItem>
+                  )))
+                }
+              </SelectContent>
+            </Select>
+
+          </label>
+          {form.formState.errors.billing_day && <span className='label-error'>{form.formState.errors.billing_day.message}</span>}
+        </div>
+
+        <div className='space-y-2'>
+          <label>
+            Subscription Type
+            <Select {...form.register('subscription_type')} value={form.watch("subscription_type")} onValueChange={val=>form.setValue("subscription_type", val)}>
+              <SelectTrigger className="capitalize" >
+                <SelectValue placeholder="Select a value" />
+              </SelectTrigger>
+              <SelectContent className="capitalize">
+                {PLAN_TYPES.map(option=>(
+                  <SelectItem key={option} value={option}>{option}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </label>
-          {form.formState.errors.extra_field && <span className='label-error'>{form.formState.errors.extra_field.message}</span>}
+          {form.formState.errors.subscription_type && <span className='label-error'>{form.formState.errors.subscription_type.message}</span>}
         </div>
 
         <div className="grid md:grid-cols-2 gap-4">
 
-          {form.watch('extra_field') === "default" ? (
+          {form.watch('subscription_type') === "secondary" ? (
             <>
-              <div className='space-y-2'>
-                <label>
-                  Customer Billing Day
-                  <Select {...form.register('billing_day')} value={String(form.watch('billing_day'))} onValueChange={value=>form.setValue("billing_day", Number(value))}>
-                    <SelectTrigger className="">
-                      <SelectValue placeholder="Select customer billing day" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {
-                        Array.from(Array(31).keys()).map((day=>(
-                          <SelectItem key={day} value={String(day+1)}>{day+1}</SelectItem>
-                        )))
-                      }
-                    </SelectContent>
-                  </Select>
-                  
-                </label>
-                {form.formState.errors.billing_day && <span className='label-error'>{form.formState.errors.billing_day.message}</span>}
-              </div>
+
+              <PlanSelect form={form} label="Metered Billing Plan" field="metered_billing_plan" type={form.watch("subscription_type")} />
 
               <div className='space-y-2'>
                 <label>
-                  Metered Billing Plan
-                  <Select {...form.register('metered_billing_plan')} name="metered billing plan" value={form.watch("metered_billing_plan")} onValueChange={val=>form.setValue("metered_billing_plan", val)}>
-                    <SelectTrigger className="">
-                      <SelectValue placeholder="Select a value" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {isLoading ? (
-                        <p>Loading plans...</p>
-                      ): isError ? (
-                          <p className='text-red-500 text-sm'>Error loading plans</p>
-                        ): 
-                          plans?.map(option=>(
-                            <SelectItem key={option.id} value={String(option.id)}>{option.plan_name}</SelectItem>
-                          ))
-                      }
-                    </SelectContent>
-                  </Select>
+                  Cloud Server Hosting Subscription
+                  <Input {...form.register('cloud_server_hosting_subscription')} type="number"  />
                 </label>
-                {form.formState.errors.metered_billing_plan && <span className='label-error'>{form.formState.errors.metered_billing_plan.message}</span>}
+                {form.formState.errors.cloud_server_hosting_subscription && <span className='label-error'>{form.formState.errors.cloud_server_hosting_subscription.message}</span>}
               </div>
 
-              <div className='space-y-2'>
+              <div className='space-y-2 md:col-span-2'>
                 <label>
                   Metered SIP Trunk Usage
                   <Input {...form.register('metered_sip_trunk_usage')} type="number" />
@@ -222,33 +238,12 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
                 </label>
                 {form.formState.errors.metered_sip_trunk_usage && <span className='label-error'>{form.formState.errors.metered_sip_trunk_usage.message}</span>}
               </div>
-
-
-              <div className='space-y-2'>
-                <label>
-                  Cloud Server Hosting Subscription
-                  <Input {...form.register('cloud_server_hosting_subscription')} type="number"  />
-                </label>
-                {form.formState.errors.cloud_server_hosting_subscription && <span className='label-error'>{form.formState.errors.cloud_server_hosting_subscription.message}</span>}
-              </div>
             </>
 
           ): (
               <>
-                <div className='space-y-2'>
-                  <label>
-                    Extra 1
-                    <Input {...form.register('phone')} />
-                  </label>
-                  {form.formState.errors.phone && <span className='label-error'>{form.formState.errors.phone.message}</span>}
-                </div>
-
-                <div className='space-y-2'>
-                  <label>
-                    Extra 2
-                    <Input {...form.register('phone')} />
-                  </label>
-                  {form.formState.errors.phone && <span className='label-error'>{form.formState.errors.phone.message}</span>}
+                <div className="md:col-span-2">
+                  <PlanSelect form={form} label="Phone Plan" field="phone_plan" type={form.watch("subscription_type")} />
                 </div>
               </>
             )}
