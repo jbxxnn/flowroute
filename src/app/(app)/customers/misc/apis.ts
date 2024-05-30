@@ -1,3 +1,4 @@
+import { StripeData, StripeDataEndpointResponse } from "@/lib/types/StripeData";
 import { AddCustomerFormData, Customer } from "@/lib/types/customers";
 
 export async function addCustomerAPI(customer:AddCustomerFormData){
@@ -26,6 +27,24 @@ export async function createCustomerSubscription(customer_slug:string):Promise<v
 
 export async function fetchCustomerAPI(customer_slug:string):Promise<Customer>{
   return await fetch(`/api/customers/${customer_slug}`).then(async (res)=>{
+    const _res = await res.json()
+    if (res.ok){
+      return _res
+    }
+    throw _res
+  })
+}
+
+export async function fetchCustomerStripeDataAPI(customer_slug:string):Promise<StripeDataEndpointResponse>{
+  return await fetch(`/api/customers/${customer_slug}/dashboard-data/`, {
+    headers: {
+      "Content-Type" : "application/json"
+    },
+    method: "POST",
+    body: JSON.stringify({
+      customer_slug
+    })
+  }).then(async (res)=>{
     const _res = await res.json()
     if (res.ok){
       return _res

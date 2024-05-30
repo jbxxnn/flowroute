@@ -2,10 +2,12 @@
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Button } from "@/components/ui/button";
-import { fetchCustomerQuery } from "../misc/queries";
+import { fetchCustomerQuery, fetchCustomerStripeDataQuery } from "../misc/queries";
 import { useMutation } from "@tanstack/react-query";
-import { createCustomerSubscription } from "../misc/apis";
+import { createCustomerSubscription, } from "../misc/apis";
 import { toast } from "sonner";
+import { columns } from "./components/columns";
+import { DataTable } from "./components/dataTable";
 
 function BaseLayout({children}:{children:React.ReactNode}){
   return (
@@ -21,11 +23,15 @@ function BaseLayout({children}:{children:React.ReactNode}){
 
 export default function CustomerDetail({params}:{params: {customer_slug:string}}){
   const {data, refetch, isLoading, isError, error} = fetchCustomerQuery({customer_slug:params.customer_slug})
+
+  const {data:stripe_data, refetch:refetchStripe, isLoading:isLoadingStripeData, isError:isStripeError, error:stripeError} = fetchCustomerStripeDataQuery({customer_slug:data?.stripe_customer_id!, enabled:!!data})
+
   const createSubscriptionMutation = useMutation({
     mutationFn:createCustomerSubscription,
     onSuccess: ()=>{
       toast.success("Subscription created successfully!")
       refetch()
+      refetchStripe()
     },
     onError: ()=>{
       toast.error("Error creating subscription")
@@ -92,9 +98,16 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
               <h2 className="capitalize text-black-500 text-sm font-medium">
                 Subscriptions
               </h2>
-              <ul>
-                <li className="text-sm text-gray-500 font-normal">Subscription</li>
-              </ul>
+
+              {isLoadingStripeData && (
+                <p>loading...</p>
+              )}
+              {isStripeError && (
+                <p className="text-center p-4 text-red-500">Error loading data</p>
+              )}
+              {stripe_data && (
+                <DataTable columns={columns} data={stripe_data?.subscriptions||[]} />
+              )}
             </section>
             <section className="space-y-2 border-t py-4">
               <h2 className="capitalize text-black-500 text-sm font-medium">
@@ -147,29 +160,83 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
               </ul>
             </section>
             <section className="space-y-2 border-t py-4">
-              <h2 className="capitalize text-black-500 text-sm font-medium">
-                Details
-              </h2>
-              <ul className="space-y-2">
-                <li>
+              {
+                isLoadingStripeData && (
                   <div>
-                    <h3 className="text-sm text-gray-500 font-normal">Customer ID</h3>
-                    <p className="text-sm text-black-500 font-bold">{data?.customer_id}</p>
+                    <p>Loading data...</p>
                   </div>
-                </li>
-                <li>
+                )
+              }
+
+              {
+                isStripeError && (
                   <div>
-                    <h3 className="text-sm text-gray-500 font-normal">Customer since</h3>
-                    <p className="text-sm text-black-500 font-bold">{new Date().toLocaleDateString()}</p>
+                    <p>Error loading data...</p>
                   </div>
-                </li>
-                <li>
-                  <div>
-                    <h3 className="text-sm text-gray-500 font-normal">Billing details</h3>
-                    <p className="text-sm text-black-500 font-bold">Billing details</p>
-                  </div>
-                </li>
-              </ul>
+                )
+              }
+              {
+                stripe_data && (
+                  <ul className="space-y-4">
+                    <ul className="space-y-2 pl-4">
+                      <h2 className="-ml-4 text-gray-700 font-normal">Details</h2>
+                      <li>
+                        <div>
+                          <h2 className="text-sm text-gray-500 font-normal">Customer ID</h2>
+                          <p className="text-sm text-black-500 font-bold">{stripe_data.customer.id}</p>
+                        </div>
+                      </li>
+                      <li>
+                        <div>
+                          <h2 className="text-sm text-gray-500 font-normal">Customer since</h2>
+                          <p className="text-sm text-black-500 font-bold">{new Date(stripe_data.customer.created * 1000).toLocaleDateString()}</p>
+                        </div>
+                      </li>
+                    </ul>
+                    <li>
+                      <ul className="space-y-2 pl-4">
+                        <h2 className="-ml-4 text-gray-700 font-normal">Billing Details</h2>
+                        <li>
+                          <div>
+                            <h3 className="text-sm text-gray-500 font-normal">Email</h3>
+                            <p className="text-sm text-black-500 font-bold">{stripe_data.customer.email}</p>
+                          </div>
+                        </li>
+                        <li>
+                          <div>
+                            <h3 className="text-sm text-gray-500 font-normal">Phone</h3>
+                            <p className="text-sm text-black-500 font-bold">{stripe_data.customer.phone}</p>
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      <ul className="space-y-2 pl-4">
+                        <h2 className="-ml-4 text-gray-700 font-normal">Shipping Details</h2>
+                        <li>
+                          <div>
+                            <h3 className="text-sm text-gray-500 font-normal">Name</h3>
+                            <p className="text-sm text-black-500 font-bold">{stripe_data.customer.shipping?.name}</p>
+                          </div>
+                        </li>
+                        <li>
+                          <div>
+                            <h3 className="text-sm text-gray-500 font-normal">Address</h3>
+                            <p className="text-sm text-black-500 font-bold flex flex-col">
+                              <span> {stripe_data.customer.shipping?.address?.line1}, </span>
+                              <span> {stripe_data.customer.shipping?.address?.city}, {stripe_data.customer.shipping?.address?.state}, {stripe_data.customer.shipping?.address?.country}</span>
+                              <span> {stripe_data.customer.shipping?.address?.postal_code}, </span>
+                              <span> {stripe_data.customer.shipping?.phone} </span>
+                            </p>
+                          </div>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+
+                )
+              }
+
             </section>
           </div>
         </div>
@@ -178,3 +245,4 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
   )
 
 }
+
