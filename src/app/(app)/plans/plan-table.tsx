@@ -41,6 +41,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { PLAN_TYPES } from "@/lib/constants"
 
 
 interface DataTableProps<TData, TValue> {
@@ -87,16 +88,48 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4">
-        <div className="w-[75%]">
-          <Input
-            placeholder="Filter by names..."
-            value={(table.getColumn("plan_name")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("plan_name")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
+        <div className="flex gap-2 items-center">
+          <div className="w-[75%]">
+            <Input
+              placeholder="Filter by names..."
+              value={(table.getColumn("plan_name")?.getFilterValue() as string) ?? ""}
+              onChange={(event) =>
+                table.getColumn("plan_name")?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                {
+                  table.getColumn("plan_type")?.getFilterValue() ?
+                    <span className="capitalize">{table.getColumn("plan_type")?.getFilterValue() as string}  type</span> :
+                    "Filter by type"
+                }
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {PLAN_TYPES
+                .map((option) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={option}
+                      className="capitalize"
+                      checked={table.getColumn("plan_type")?.getFilterValue() === option }
+                      onCheckedChange={(value) =>{
+                        table.getColumn("plan_type")?.setFilterValue(option)
+                      }}
+                    >
+                      {option}
+                    </DropdownMenuCheckboxItem>
+                  )
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

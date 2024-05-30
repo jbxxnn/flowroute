@@ -27,6 +27,7 @@ import { useRouter } from 'next/navigation';
 import { Textarea } from '@/components/ui/textarea';
 import { planFormSchema } from './misc/zod';
 import { toast } from 'sonner';
+import { PLAN_TYPES } from '@/lib/constants';
 
 
 
@@ -106,7 +107,7 @@ export function AddForm() {
                 <SelectValue placeholder="Select a plan type" />
               </SelectTrigger>
               <SelectContent className="capitalize">
-                {["primary", "secondary"].map(option=>(
+                {PLAN_TYPES.map(option=>(
                   <SelectItem key={option} value={option}>{option}</SelectItem>
                 ))}
               </SelectContent>
