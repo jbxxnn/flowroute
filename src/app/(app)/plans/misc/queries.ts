@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchPlansAPI } from "./apis";
+import { fetchPlansAPI, fetchPlansCountAPI } from "./apis";
 
 const BASE_QUERY_KEYS = ["plans"]
 
@@ -11,5 +11,13 @@ export function fetchPlansQuery({query_key=[]}:FetchPlansQueryType = {}){
   return useQuery({
     queryKey: BASE_QUERY_KEYS.concat(query_key),
     queryFn: fetchPlansAPI
+  })
+}
+
+
+export function fetchPlansCountQuery({query_key=[]}:FetchPlansQueryType = {}){
+  return useQuery({
+    queryKey: BASE_QUERY_KEYS.concat(query_key),
+    queryFn: fetchPlansCountAPI
   })
 }

@@ -18,3 +18,7 @@ export async function createNewPlanAPI(plan:AddPlanFormData){
 export async function fetchPlansAPI():Promise<Plan[]>{
   return await fetch("/api/plans").then(res=>res.json())
 }
+
+export async function fetchPlansCountAPI():Promise<number>{
+  return await fetch("/api/plans/count").then(res=>res.json())
+}

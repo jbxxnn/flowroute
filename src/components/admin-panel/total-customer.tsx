@@ -7,22 +7,54 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
+import { fetchCustomersCountQuery } from "@/app/(app)/customers/misc/queries";
+
+
+function BaseLayout({children}:{children:React.ReactNode}){
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium">
+          Total Customers
+        </CardTitle>
+        <Users className="h-4 w-4 text-muted-foreground" />
+      </CardHeader>
+      <CardContent>
+        {children}
+      </CardContent>
+    </Card>
+  )
+}
 
 export function TotalCustomers() {
+
+  const {isLoading, isSuccess, data, isError, error} = fetchCustomersCountQuery()
+
+  if (isLoading){
+    return (
+      <BaseLayout>
+        <p className="text-xs text-muted-foreground">
+          Loading...
+        </p>
+      </BaseLayout>
+    )
+  }
+
+  if (isError){
+    return (
+      <BaseLayout >
+        <p className="text-xs text-red-400">
+          Error loading customers
+        </p>
+      </BaseLayout >
+    )
+  }
+
   return (
-    <Card x-chunk="dashboard-01-chunk-0">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Customers
-              </CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">+15</div>
-              <p className="text-xs text-muted-foreground">
-                +20.1% from last month
-              </p>
-            </CardContent>
-          </Card>
+
+    <BaseLayout>
+      <div className="text-2xl font-bold">{data}</div>
+    </BaseLayout>
+            
   );
 }

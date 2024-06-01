@@ -19,6 +19,9 @@ export async function addCustomerAPI(customer:AddCustomerFormData){
 type FetchCustomersAPIProps = {
   limit?: number
 }
+type FetchCustomersSubscriptionsAPIProps = {
+  status?: string
+}
 export async function fetchCustomersAPI({limit}:FetchCustomersAPIProps):Promise<Customer[]>{
   let url_search_params = new URLSearchParams("")
   if (limit){
@@ -26,6 +29,20 @@ export async function fetchCustomersAPI({limit}:FetchCustomersAPIProps):Promise<
   }
   return await fetch("/api/customers?" + url_search_params.toString()).then(res=>res.json())
 }
+
+export async function fetchCustomersCountAPI():Promise<number>{
+  let url_search_params = new URLSearchParams("")
+  return await fetch("/api/customers/count?" + url_search_params.toString()).then(res=>res.json())
+}
+
+export async function fetchCustomersSubscriptionsCountAPI({status}:FetchCustomersSubscriptionsAPIProps):Promise<number>{
+  let url_search_params = new URLSearchParams("")
+  if (status){
+    url_search_params.set("status", status)
+  }
+  return await fetch("/api/customers/subscriptions/count?" + url_search_params.toString()).then(res=>res.json())
+}
+
 
 export async function createCustomerSubscription(customer_slug:string):Promise<void>{
   return await fetch(`/api/customers/${customer_slug}/create-subscription`, {method:"POST"}).then(res=>res.json())

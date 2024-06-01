@@ -8,20 +8,51 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
+import { fetchPlansCountQuery } from "@/app/(app)/plans/misc/queries";
 
-export function PricePlans() {
+function BaseLayout({children}:{children:React.ReactNode}){
   return (
-    <Card x-chunk="dashboard-01-chunk-2">
-    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
       <CardTitle className="text-sm font-medium">Price Plans</CardTitle>
       <Activity className="h-4 w-4 text-muted-foreground" />
-    </CardHeader>
-    <CardContent>
-      <div className="text-2xl font-bold">+6</div>
-      <p className="text-xs text-muted-foreground">
-        +19% from last month
-      </p>
-    </CardContent>
-  </Card>
+      </CardHeader>
+      <CardContent>
+        {children}
+      </CardContent>
+    </Card>
+  )
+}
+
+export function PricePlans() {
+
+  const {isLoading, isSuccess, data, isError, error} = fetchPlansCountQuery()
+
+  if (isLoading){
+    return (
+      <BaseLayout>
+        <p className="text-xs text-muted-foreground">
+          Loading...
+        </p>
+      </BaseLayout>
+    )
+  }
+
+  if (isError){
+    return (
+      <BaseLayout >
+        <p className="text-xs text-red-400">
+          Error loading plans
+        </p>
+      </BaseLayout >
+    )
+  }
+
+  return (
+
+    <BaseLayout>
+      <div className="text-2xl font-bold">{data}</div>
+    </BaseLayout>
+            
   );
 }
