@@ -83,9 +83,21 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
               }
             </ul>
             <div className="flex gap-2">
-              <Button busy={createSubscriptionMutation.isPending} onClick={handleCreateUserSubscription}>
-                Create Subscription
-              </Button>
+              {!isLoadingStripeData && (
+                <>
+                  {
+                    (stripe_data?.subscriptions[0]?.status !== "active") ? (
+                      <Button busy={createSubscriptionMutation.isPending} onClick={handleCreateUserSubscription}>
+                        Create Subscription
+                      </Button>
+                    ): (
+                        <Button variant="secondary" disabled>
+                          Subscription is active
+                        </Button>
+                      )
+                  }
+                </>
+              )}
               <Button variant="outline">
                 Edit User
               </Button>
