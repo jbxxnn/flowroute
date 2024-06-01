@@ -8,12 +8,19 @@ import { pool } from "@/lib/misc/my_sql";
 
 
 export async function GET(request: NextRequest) {
+  const url = new URL(request.url)
+  const limit = url.searchParams.get("limit")
   try {
     const connection = await pool.getConnection(); 
+    let query = "SELECT * FROM customers"
+
+    if (limit){
+      query = `${query} LIMIT ${limit}`
+    }
 
     // Fetch all plans (adjust the query as needed)
     const [rows] = await connection.query(
-      "SELECT * FROM customers"
+      query
     );
 
     connection.release(); // Important: Release the connection back to the pool

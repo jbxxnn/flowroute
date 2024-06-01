@@ -16,8 +16,15 @@ export async function addCustomerAPI(customer:AddCustomerFormData){
     });
 }
 
-export async function fetchCustomersAPI():Promise<Customer[]>{
-  return await fetch("/api/customers").then(res=>res.json())
+type FetchCustomersAPIProps = {
+  limit?: number
+}
+export async function fetchCustomersAPI({limit}:FetchCustomersAPIProps):Promise<Customer[]>{
+  let url_search_params = new URLSearchParams("")
+  if (limit){
+    url_search_params.set("limit", String(limit))
+  }
+  return await fetch("/api/customers?" + url_search_params.toString()).then(res=>res.json())
 }
 
 export async function createCustomerSubscription(customer_slug:string):Promise<void>{

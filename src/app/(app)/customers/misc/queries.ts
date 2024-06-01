@@ -5,6 +5,7 @@ const BASE_QUERY_KEYS = ["customers"]
 
 type FetchCustomersProps = {
   queryKey?:string[],
+  limit?:number, 
 }
 
 type FetchCustomerProps = {
@@ -15,10 +16,10 @@ type FetchCustomerStripeDataProps = FetchCustomerProps & {
   enabled:boolean
 }
 
-export function fetchCustomersQuery({queryKey=[]}:FetchCustomersProps = {}){
+export function fetchCustomersQuery({queryKey=[], limit}:FetchCustomersProps = {}){
   return useQuery({
-    queryFn: fetchCustomersAPI,
-    queryKey: BASE_QUERY_KEYS.concat(queryKey)
+    queryFn: async ()=> await fetchCustomersAPI({limit}),
+    queryKey: BASE_QUERY_KEYS.concat([...queryKey, "limit="+limit])
   })
 }
 
