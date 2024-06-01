@@ -111,7 +111,7 @@ export function DataTable<TData, TValue>({
                           cell.getValue() * 1000).toLocaleDateString() : 'No future invoices'
                        :
                         cell.column.id == "status" ? 
-                        <span className={cn({'p-2 px-4 rounded-full bg-red-500/40': cell.getValue() === 'canceled', 'p-2 px-4 rounded-full bg-green-500/50': cell.getValue() === 'active'})}>
+                        <span className={cn({'p-1 px-4 rounded-full bg-red-500/40': cell.getValue() === 'canceled', 'p-1 px-4 rounded-full bg-green-500/50': cell.getValue() === 'active'})}>
                             {cell.getValue() as string}
                           </span>
 

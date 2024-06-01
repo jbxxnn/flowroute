@@ -153,8 +153,8 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
               <ul>
                 <li>
                   <div>
-                    <h3 className="text-sm text-gray-500 font-normal">Spent</h3>
-                    <p className="text-sm text-black-500 font-bold">$2,934.02</p>
+                    <h3 className="text-sm text-black-500 font-normal">Spent</h3>
+                    <p className="text-sm text-gray-500">$2,934.02</p>
                   </div>
                 </li>
               </ul>
@@ -179,50 +179,50 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
                 stripe_data && (
                   <ul className="space-y-4">
                     <ul className="space-y-2 pl-4">
-                      <h2 className="-ml-4 text-gray-700 font-normal">Details</h2>
+                      <h2 className="-ml-4 text-gray-700 font-bold text-sm">Details</h2>
                       <li>
                         <div>
-                          <h2 className="text-sm text-gray-500 font-normal">Customer ID</h2>
-                          <p className="text-sm text-black-500 font-bold">{stripe_data.customer.id}</p>
+                          <h2 className="text-sm text-black-500 font-normal">Customer ID</h2>
+                          <p className="text-sm text-gray-500">{stripe_data.customer.id}</p>
                         </div>
                       </li>
                       <li>
                         <div>
-                          <h2 className="text-sm text-gray-500 font-normal">Customer since</h2>
-                          <p className="text-sm text-black-500 font-bold">{new Date(stripe_data.customer.created * 1000).toLocaleDateString()}</p>
+                          <h2 className="text-sm text-black-500 font-normal">Customer since</h2>
+                          <p className="text-sm text-gray-500">{new Date(stripe_data.customer.created * 1000).toLocaleDateString()}</p>
                         </div>
                       </li>
                     </ul>
                     <li>
                       <ul className="space-y-2 pl-4">
-                        <h2 className="-ml-4 text-gray-700 font-normal">Billing Details</h2>
+                        <h2 className="-ml-4 text-gray-700 font-bold text-sm">Billing Details</h2>
                         <li>
                           <div>
-                            <h3 className="text-sm text-gray-500 font-normal">Email</h3>
-                            <p className="text-sm text-black-500 font-bold">{stripe_data.customer.email}</p>
+                            <h3 className="text-sm text-black-500 font-normal">Email</h3>
+                            <p className="text-sm text-gray-500">{stripe_data.customer.email}</p>
                           </div>
                         </li>
                         <li>
                           <div>
-                            <h3 className="text-sm text-gray-500 font-normal">Phone</h3>
-                            <p className="text-sm text-black-500 font-bold">{stripe_data.customer.phone}</p>
+                            <h3 className="text-sm text-black-500 font-normal">Phone</h3>
+                            <p className="text-sm text-gray-500">{stripe_data.customer.phone}</p>
                           </div>
                         </li>
                       </ul>
                     </li>
                     <li>
                       <ul className="space-y-2 pl-4">
-                        <h2 className="-ml-4 text-gray-700 font-normal">Shipping Details</h2>
+                        <h2 className="-ml-4 text-gray-700 font-bold text-sm">Shipping Details</h2>
                         <li>
                           <div>
-                            <h3 className="text-sm text-gray-500 font-normal">Name</h3>
-                            <p className="text-sm text-black-500 font-bold">{stripe_data.customer.shipping?.name}</p>
+                            <h3 className="text-sm text-black-500 font-normal">Name</h3>
+                            <p className="text-sm text-gray-500">{stripe_data.customer.shipping?.name}</p>
                           </div>
                         </li>
                         <li>
                           <div>
-                            <h3 className="text-sm text-gray-500 font-normal">Address</h3>
-                            <p className="text-sm text-black-500 font-bold flex flex-col">
+                            <h3 className="text-sm text-black-500 font-normal">Address</h3>
+                            <p className="text-sm text-gray-500 flex flex-col">
                               <span> {stripe_data.customer.shipping?.address?.line1}, </span>
                               <span> {stripe_data.customer.shipping?.address?.city}, {stripe_data.customer.shipping?.address?.state}, {stripe_data.customer.shipping?.address?.country}</span>
                               <span> {stripe_data.customer.shipping?.address?.postal_code}, </span>
