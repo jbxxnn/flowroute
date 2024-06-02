@@ -12,13 +12,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { fetchPlansQuery } from "./misc/queries";
+import { useFetchPlansQuery } from "./misc/queries";
 
 
 
 export default function PostsPage() {
 
-  const {data, isLoading, isError, error} = fetchPlansQuery()
+  const {data, isLoading, isError, error} = useFetchPlansQuery()
 
   return (
     <ContentLayout title="All Phone Plans">

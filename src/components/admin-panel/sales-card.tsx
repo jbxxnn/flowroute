@@ -8,7 +8,7 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-import { fetchPlansCountQuery } from "@/app/(app)/plans/misc/queries";
+import { useFetchPlansCountQuery } from "@/app/(app)/plans/misc/queries";
 
 function BaseLayout({children}:{children:React.ReactNode}){
   return (
@@ -26,7 +26,7 @@ function BaseLayout({children}:{children:React.ReactNode}){
 
 export function PricePlans() {
 
-  const {isLoading, isSuccess, data, isError, error} = fetchPlansCountQuery()
+  const {isLoading, isSuccess, data, isError, error} = useFetchPlansCountQuery()
 
   if (isLoading){
     return (

@@ -7,7 +7,7 @@ type FetchPlansQueryType = {
   query_key?: string[];
 }
 
-export function fetchPlansQuery({query_key=[]}:FetchPlansQueryType = {}){
+export function useFetchPlansQuery({query_key=[]}:FetchPlansQueryType = {}){
   return useQuery({
     queryKey: BASE_QUERY_KEYS.concat(query_key),
     queryFn: fetchPlansAPI
@@ -15,7 +15,7 @@ export function fetchPlansQuery({query_key=[]}:FetchPlansQueryType = {}){
 }
 
 
-export function fetchPlansCountQuery({query_key=[]}:FetchPlansQueryType = {}){
+export function useFetchPlansCountQuery({query_key=[]}:FetchPlansQueryType = {}){
   return useQuery({
     queryKey: BASE_QUERY_KEYS.concat(query_key),
     queryFn: fetchPlansCountAPI

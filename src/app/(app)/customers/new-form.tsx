@@ -17,7 +17,7 @@ import { Form } from '@/components/ui/form';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCustomerAPI } from './misc/apis';
 import { useRouter } from 'next/navigation';
-import { fetchPlansQuery } from '../plans/misc/queries';
+import { useFetchPlansQuery } from '../plans/misc/queries';
 import { customerFormSchema } from './misc/zod';
 import { toast } from 'sonner';
 import { PLAN_TYPES } from '@/lib/constants';
@@ -36,7 +36,7 @@ type PlanSelectProps = {
 }
 
 export function PlanSelect({label, form, field, type}:PlanSelectProps){
-  const {data:plans, isLoading, isError, error} = fetchPlansQuery()
+  const {data:plans, isLoading, isError, error} = useFetchPlansQuery()
   return (
     <div className='space-y-2'>
       <label>
