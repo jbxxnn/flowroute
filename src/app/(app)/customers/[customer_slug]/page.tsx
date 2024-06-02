@@ -8,6 +8,7 @@ import { createCustomerSubscription, } from "../misc/apis";
 import { toast } from "sonner";
 import { columns } from "./components/columns";
 import { DataTable } from "./components/dataTable";
+import { Card } from "@/components/ui/card";
 
 function BaseLayout({children}:{children:React.ReactNode}){
   return (
@@ -45,18 +46,18 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
   if (isLoading){
     return (
       <BaseLayout>
-        <div className="max-w-2xl mx-auto p-4 bg-white grid place-items-center">
+        <Card className="max-w-2xl mx-auto p-4  grid place-items-center">
           Loading customer...
-        </div>
+        </Card>
       </BaseLayout>
     )
   }
   if (isError){
     return (
       <BaseLayout>
-        <div className="max-w-2xl mx-auto p-4 bg-white grid place-items-center">
+        <Card className="max-w-2xl mx-auto p-4 grid place-items-center">
           <p className="text-red-500">{error.message||"something went wrong"}</p>
-        </div>
+        </Card>
       </BaseLayout>
     )
   }
@@ -64,7 +65,7 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
     <BaseLayout>
 
       <main className="space-y-4">
-        <div className="bg-white p-6 -mt-14">
+        <Card className="p-6 -mt-14">
           <div className="flex gap-4 max-md:flex-col justify-between items-center">
             <ul className="flex gap-2 divide-x">
               {
@@ -103,9 +104,9 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
               </Button>
             </div>
           </div>
-        </div>
+        </Card>
         <div className="container mx-auto min-h-[200px] grid md:grid-cols-4 gap-4">
-          <div className="md:col-span-3 bg-white p-4 space-y-8 shadow-lg">
+          <Card className="md:col-span-3 p-4 space-y-8 shadow-lg">
             <section className="space-y-2">
               <h2 className="capitalize text-black-500 text-sm font-medium">
                 Subscriptions
@@ -156,8 +157,8 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
                 <li className="text-sm text-gray-500 font-normal">Invoice</li>
               </ul>
             </section>
-          </div>
-          <div className="bg-white p-4 space-y-8 shadow-lg">
+          </Card>
+          <Card className="p-4 space-y-8 shadow-lg">
             <section className="space-y-2">
               <h2 className="capitalize text-black-500 text-sm font-medium">
                 Insights
@@ -250,7 +251,7 @@ export default function CustomerDetail({params}:{params: {customer_slug:string}}
               }
 
             </section>
-          </div>
+          </Card>
         </div>
       </main>
     </BaseLayout>
