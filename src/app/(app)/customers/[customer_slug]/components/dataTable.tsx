@@ -105,7 +105,7 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      { cell.column.id == "upcoming_invoice_start" ? 
+                      { cell.column.id == "upcoming_invoice_end" ? 
                         cell.getValue() ? new Date(
                         //@ts-ignore
                           cell.getValue() * 1000).toLocaleDateString() : 'No future invoices'

@@ -30,7 +30,7 @@ export const columns: ColumnDef<CustomStripeSubscription>[] = [
     header: "Frequency",
   },
   {
-    accessorKey: "upcoming_invoice.start",
+    accessorKey: "upcoming_invoice.end",
     header: "Next Invoice",
   },
 ]
