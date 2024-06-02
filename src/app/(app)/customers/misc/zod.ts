@@ -38,6 +38,7 @@ export const customerFormSchema = z
 
   //primary
   phone_plan: z.string().optional(),
+  extra_numbers: z.coerce.number().optional(),
 
   //secondary
   metered_billing_plan: z.string().optional(),

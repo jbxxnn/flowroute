@@ -90,11 +90,13 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
     resolver: zodResolver(customerFormSchema),
     defaultValues: {
       fullname: '',
+      extra_numbers:0,
       subscription_type: PLAN_TYPES[0],
     },
   });
 
   function handleSubmit(values: z.infer<typeof customerFormSchema>) {
+    console.log({form:form.formState})
     addCustomerMutation.mutate(values)
   }
 
@@ -243,6 +245,14 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
           ): (
               <>
                 <div className="md:col-span-2">
+                  <label>
+                    Extra numbers 
+                    <Input {...form.register('extra_numbers')} type="number" onChange={e=> form.setValue("extra_numbers", Number(e.target.value || 0))} defaultValue={0} min={0} />
+                  </label>
+                  {form.formState.errors.extra_numbers && <span className='label-error'>{form.formState.errors.extra_numbers.message}</span>}
+                </div>
+
+                <div className="md:col-span-2">
                   <PlanSelect form={form} label="Phone Plan" field="phone_plan" type={form.watch("subscription_type")} />
                 </div>
               </>
@@ -250,7 +260,7 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
         </div>
 
         <div className="">
-          <Button className='w-full' busy={addCustomerMutation.isPending} >
+          <Button onClick={form.handleSubmit(handleSubmit)} type="button" className='w-full' busy={addCustomerMutation.isPending} >
             Submit
           </Button >
 

@@ -50,7 +50,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({success:false, errors: _data.error}, {status:400})
     }
 
-    const {fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, phone_plan, metered_billing_plan, metered_sip_trunk_usage, cloud_server_hosting_subscription} = _data.data
+    const {fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, phone_plan, metered_billing_plan, metered_sip_trunk_usage, cloud_server_hosting_subscription, extra_numbers:_extra_numbers} = _data.data
+
+    const extra_numbers = _extra_numbers || 0
 
     const product_id = subscription_type === "primary" ? phone_plan : metered_billing_plan
 
@@ -60,8 +62,8 @@ export async function POST(request: NextRequest) {
     // Insert into MySQL
     const [result] = await pool.query(
 
-      `INSERT INTO customers (fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, product_id, metered_sip_trunk_usage, cloud_server_hosting_subscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, product_id, metered_sip_trunk_usage, cloud_server_hosting_subscription]
+      `INSERT INTO customers (fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, extra_numbers, product_id, metered_sip_trunk_usage, cloud_server_hosting_subscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, extra_numbers, product_id, metered_sip_trunk_usage, cloud_server_hosting_subscription]
     ) as [ResultSetHeader, any];
     console.log({result})
 
