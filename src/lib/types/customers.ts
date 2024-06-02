@@ -1,5 +1,5 @@
 export type Customer = {
-  // stripe_customer_id:string;
+  stripe_customer_id:string;
   customer_id:string;
   fullname : string;
   phone : string;
@@ -17,4 +17,4 @@ export type Customer = {
   product_id: string;
 }
 
-export type AddCustomerFormData = Omit<Customer, "customer_id"|"product_id"> 
+export type AddCustomerFormData = Omit<Customer, "customer_id"|"product_id" | "stripe_customer_id"> 
