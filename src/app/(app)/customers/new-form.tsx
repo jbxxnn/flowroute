@@ -248,6 +248,9 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
                   <label>
                     Extra numbers 
                     <Input {...form.register('extra_numbers')} type="number" onChange={e=> form.setValue("extra_numbers", Number(e.target.value || 0))} defaultValue={0} min={0} />
+                    <span className="text-xs text-gray-400">
+                      If there are no extra numbers for this customer please skip this field
+                    </span>
                   </label>
                   {form.formState.errors.extra_numbers && <span className='label-error'>{form.formState.errors.extra_numbers.message}</span>}
                 </div>
