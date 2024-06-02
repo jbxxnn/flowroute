@@ -41,6 +41,7 @@ export function AddForm() {
       form.reset();
       toast.success("Plan created successfully!")
       router.push(`/plans/${result.id}`)
+      // router.push(`/plans`)
     },
     onError: (e) => {
       toast.error("Error creating plan.")
@@ -99,6 +100,21 @@ export function AddForm() {
           )}
         />
 
+        
+<FormField
+          control={form.control}
+          name="plan_description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Plan Description</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Enter plan description" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <div className='space-y-2'>
           <label>
             Plan type
@@ -116,20 +132,54 @@ export function AddForm() {
           {form.formState.errors.plan_type && <span className='label-error'>{form.formState.errors.plan_type.message}</span>}
         </div>
 
+        {form.watch('plan_type') === "primary" ? (
+          <>
         <FormField
           control={form.control}
-          name="plan_description"
+          name="additional_minutes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Plan Description</FormLabel>
+              <FormLabel>Additional Minutes</FormLabel>
               <FormControl>
-                <Textarea placeholder="Enter plan description" {...field} />
+                <Input placeholder="Enter Additional Minutes" {...field} type="number" />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
+<FormField
+          control={form.control}
+          name="included_numbers"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Included Numbers</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter Included Numbers" {...field} type="number" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+<FormField
+          control={form.control}
+          name="number_cost"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Number Cost</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter Number Cost" {...field} type="number" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </>
+      ): (
+        <>
+        </>
+      )}
 
         <Button className='w-full' type="submit" busy={addPlanMutation.isPending}>Add New Plan</Button>
 

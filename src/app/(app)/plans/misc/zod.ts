@@ -7,12 +7,21 @@ export const planFormSchema = z.object({
   plan_description: z.string().min(2, {
     message: 'Plan description must be at least 2 characters.',
   }),
-  included_minutes: z.string().min(2, {
+  included_minutes: z.string().min(1, {
     message: 'Included minutes must be a number.',
   }),
   plan_type: z.string({required_error:"plan type is required"}),
-  plan_price: z.string().min(2, {
+  plan_price: z.string().min(1, {
     message: 'Plan Price must be a number.',
+  }),
+  additional_minutes: z.string().min(1, {
+    message: 'Included minutes must be a number.',
+  }),
+  included_numbers: z.string().min(1, {
+    message: 'Included minutes must be a number.',
+  }),
+  number_cost: z.string().min(1, {
+    message: 'Included minutes must be a number.',
   }),
 
 });

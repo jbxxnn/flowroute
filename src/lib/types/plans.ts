@@ -5,6 +5,9 @@ export type Plan = {
   included_minutes:string;
   plan_price:string;
   plan_type:PlanTypes;
+  additional_minutes:string;
+  included_numbers:string;
+  number_cost:string;
 }
 
 export type AddPlanFormData = Omit<Plan, "id"> 

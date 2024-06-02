@@ -164,7 +164,7 @@ export function DataTable<TData, TValue>({
               Add New Plan
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-h-[85vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Add New Plan</DialogTitle>
             </DialogHeader>
