@@ -1,5 +1,5 @@
 export type Customer = {
-  stripe_customer_id:string;
+  // stripe_customer_id:string;
   customer_id:string;
   fullname : string;
   phone : string;

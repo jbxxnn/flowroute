@@ -1,4 +1,4 @@
-import { StripeData, StripeDataEndpointResponse } from "@/lib/types/StripeData";
+import { StripeDataEndpointResponse } from "@/lib/types/StripeData";
 import { AddCustomerFormData, Customer } from "@/lib/types/customers";
 
 export async function addCustomerAPI(customer:AddCustomerFormData){
