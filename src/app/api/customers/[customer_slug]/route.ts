@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { NextApiRequest } from "next";
+import { NextRequest } from "next/server";
 import { Customer } from "@/lib/types/customers";
 import { pool } from "@/lib/misc/my_sql";
 
 
-export async function GET(request: NextApiRequest, {params}:{params:{customer_slug:string}}) {
-  const customer_slug = params.customer_slug
+export async function GET(request: NextRequest, { params }: { params: { customer_slug: string } }) {
+  const customer_slug = params.customer_slug;
 
   try {
     const connection = await pool.getConnection(); 

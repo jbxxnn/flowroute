@@ -1,7 +1,7 @@
 'use client'
 
 import Link from "next/link";
-import { Payment, columns } from "./plan-columns";
+import { columns } from "./plan-columns";
 import { DataTable } from "./plan-table";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import {
