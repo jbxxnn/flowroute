@@ -21,7 +21,7 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-import { fetchCustomersQuery } from "@/app/(app)/customers/misc/queries";
+import { useFetchCustomersQuery } from "@/app/(app)/customers/misc/queries";
 
 function BaseLayout({children}:{children:React.ReactNode}){
   return (
@@ -52,7 +52,7 @@ function BaseLayout({children}:{children:React.ReactNode}){
 
 export function CustomerList() {
 
-  const {isLoading, isSuccess, data, isError, error} = fetchCustomersQuery({limit:5})
+  const {isLoading, isSuccess, data, isError, error} = useFetchCustomersQuery({limit:5})
 
   if (isLoading){
     return (

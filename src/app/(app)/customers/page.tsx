@@ -12,11 +12,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { fetchCustomersQuery } from "./misc/queries";
+import { useFetchCustomersQuery } from "./misc/queries";
 
 export default function PostsPage() {
 
-  const {isLoading, isSuccess, data, isError, error} = fetchCustomersQuery()
+  const {isLoading, isSuccess, data, isError, error} = useFetchCustomersQuery()
 
   return (
     <ContentLayout title="All Customers">

@@ -7,7 +7,7 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-import { fetchCustomersCountQuery } from "@/app/(app)/customers/misc/queries";
+import { useFetchCustomersCountQuery } from "@/app/(app)/customers/misc/queries";
 
 
 function BaseLayout({children}:{children:React.ReactNode}){
@@ -28,7 +28,7 @@ function BaseLayout({children}:{children:React.ReactNode}){
 
 export function TotalCustomers() {
 
-  const {isLoading, isSuccess, data, isError, error} = fetchCustomersCountQuery()
+  const {isLoading, isSuccess, data, isError, error} = useFetchCustomersCountQuery()
 
   if (isLoading){
     return (

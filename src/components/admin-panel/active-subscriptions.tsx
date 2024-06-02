@@ -8,7 +8,7 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card"
-import { fetchCustomersSubscriptionsCountQuery } from "@/app/(app)/customers/misc/queries";
+import { useFetchCustomersSubscriptionsCountQuery } from "@/app/(app)/customers/misc/queries";
 
 function BaseLayout({children}:{children:React.ReactNode}){
   return (
@@ -28,7 +28,7 @@ function BaseLayout({children}:{children:React.ReactNode}){
 
 export function ActiveSubscriptions() {
 
-  const {isLoading, isSuccess, data, isError, error} = fetchCustomersSubscriptionsCountQuery({status:"active"})
+  const {isLoading, isSuccess, data, isError, error} = useFetchCustomersSubscriptionsCountQuery({status:"active"})
 
   if (isLoading){
     return (

@@ -2,7 +2,7 @@
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Button } from "@/components/ui/button";
-import { fetchCustomerQuery, fetchCustomerStripeDataQuery } from "../misc/queries";
+import { useFetchCustomerQuery, useFetchCustomerStripeDataQuery } from "../misc/queries";
 import { useMutation } from "@tanstack/react-query";
 import { createCustomerSubscription, } from "../misc/apis";
 import { toast } from "sonner";
@@ -22,9 +22,9 @@ function BaseLayout({children}:{children:React.ReactNode}){
 }
 
 export default function CustomerDetail({params}:{params: {customer_slug:string}}){
-  const {data, refetch, isLoading, isError, error} = fetchCustomerQuery({customer_slug:params.customer_slug})
+  const {data, refetch, isLoading, isError, error} = useFetchCustomerQuery({customer_slug:params.customer_slug})
 
-  const {data:stripe_data, refetch:refetchStripe, isLoading:isLoadingStripeData, isError:isStripeError, error:stripeError} = fetchCustomerStripeDataQuery({customer_slug:data?.stripe_customer_id!, enabled:!!data})
+  const {data:stripe_data, refetch:refetchStripe, isLoading:isLoadingStripeData, isError:isStripeError, error:stripeError} = useFetchCustomerStripeDataQuery({customer_slug:data?.stripe_customer_id!, enabled:!!data})
 
   const createSubscriptionMutation = useMutation({
     mutationFn:createCustomerSubscription,
