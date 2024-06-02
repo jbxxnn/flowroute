@@ -14,7 +14,7 @@ import {
 type Props =  {
   value: Date;
   displayed_value?: string | number;
-  onValueChange: (val:Date)=>void;
+  onValueChange: (val?:Date)=>void;
 }
 
 export function DatePicker({value, displayed_value, onValueChange}:Props) {
