@@ -1,19 +1,16 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-/* import connection from './mysql'; */
+import { NextResponse, NextRequest } from 'next/server';
 
-export default async function handler(req: NextApiRequest & { body: { id: any; newName: any; }; }, res: NextApiResponse) {
-
-  if (req.method !== "PATCH"){
-    res.status(405)
-    return
+export async function PATCH(request: NextRequest) {
+  if (request.method !== "PATCH") {
+    return NextResponse.json({ message: 'Method Not Allowed' }, { status: 405 });
   }
 
-  const { id, newName } = req.body;
+  const { id, newName } = await request.json();
 
   try {
     /* await connection.promise().query('UPDATE items SET name = ? WHERE id = ?', [newName, id]); */
-    res.status(200).json({ message: 'Item updated successfully' });
+    return NextResponse.json({ message: 'Item updated successfully' }, { status: 200 });
   } catch (error) {
-    res.status(500).json({ message: 'An error occurred' });
+    return NextResponse.json({ message: 'An error occurred' }, { status: 500 });
   }
-};
+}
