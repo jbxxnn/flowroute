@@ -21,27 +21,31 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createNewPlanAPI } from './misc/apis';
-import { useRouter } from 'next/navigation';
 import { Textarea } from '@/components/ui/textarea';
 import { planFormSchema } from './misc/zod';
 import { toast } from 'sonner';
 import { PLAN_TYPES } from '@/lib/constants';
 
 
+type Props = {
+  onSuccess : ()=>void
+}
 
-export function AddForm() {
-  const router = useRouter()
+export function AddForm({onSuccess}:Props) {
+  const query_client = useQueryClient()
 
   const addPlanMutation = useMutation({
     mutationKey: ["plans"],
     mutationFn: createNewPlanAPI,
     onSuccess: (result)=>{
       form.reset();
+      query_client.refetchQueries({
+        queryKey:["plans"]
+      })
       toast.success("Plan created successfully!")
-      router.push(`/plans/${result.id}`)
-      // router.push(`/plans`)
+      onSuccess()
     },
     onError: (e) => {
       toast.error("Error creating plan.")

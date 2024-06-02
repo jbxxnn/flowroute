@@ -42,6 +42,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { PLAN_TYPES } from "@/lib/constants"
+import { useState } from "react"
 
 
 interface DataTableProps<TData, TValue> {
@@ -81,9 +82,11 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  function handleFormSubmit(values: { username: string }): void {
-    throw new Error("Function not implemented.")
+  const [is_add_plan_dialog_open, setIsAddPlanDialogOpen] = useState(false)
+  function closeAddPlanDialog(){
+    setIsAddPlanDialogOpen(false)
   }
+
 
   return (
     <div>
@@ -158,7 +161,7 @@ export function DataTable<TData, TValue>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-        <Dialog>
+        <Dialog onOpenChange={setIsAddPlanDialogOpen} open={is_add_plan_dialog_open}>
           <DialogTrigger>
             <Button className="ml-3">
               Add New Plan
@@ -169,7 +172,7 @@ export function DataTable<TData, TValue>({
               <DialogTitle>Add New Plan</DialogTitle>
             </DialogHeader>
             <DialogDescription>
-              <AddForm />
+              <AddForm onSuccess={closeAddPlanDialog}/>
             </DialogDescription>
           </DialogContent>
         </Dialog>
