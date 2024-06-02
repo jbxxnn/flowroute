@@ -17,7 +17,7 @@ export function useFetchPlansQuery({query_key=[]}:FetchPlansQueryType = {}){
 
 export function useFetchPlansCountQuery({query_key=[]}:FetchPlansQueryType = {}){
   return useQuery({
-    queryKey: BASE_QUERY_KEYS.concat(query_key),
+    queryKey: ["plans count"].concat(query_key),
     queryFn: fetchPlansCountAPI
   })
 }
