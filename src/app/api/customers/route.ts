@@ -50,11 +50,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({success:false, errors: _data.error}, {status:400})
     }
 
-    const {fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, phone_plan, metered_billing_plan, metered_sip_trunk_usage, cloud_server_hosting_subscription, extra_numbers:_extra_numbers} = _data.data
+    const {fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, phone_plan, metered_billing_plan, metered_sip_trunk_usage, cloud_server_hosting_subscription, extra_numbers:_extra_numbers, included_channels:_included_channels} = _data.data
 
     const extra_numbers = _extra_numbers || 0
 
-    const product_id = subscription_type === "primary" ? phone_plan : metered_billing_plan
+    const included_channels = _included_channels || 0
+
+    const product_id = (subscription_type === "metered" || subscription_type === "unmetered") ? phone_plan : metered_billing_plan
 
     // add to db -> add to stripe 
     // if stripe fails -> delete user in db
@@ -62,8 +64,8 @@ export async function POST(request: NextRequest) {
     // Insert into MySQL
     const [result] = await pool.query(
 
-      `INSERT INTO customers (fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, extra_numbers, product_id, metered_sip_trunk_usage, cloud_server_hosting_subscription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, extra_numbers, product_id, metered_sip_trunk_usage, cloud_server_hosting_subscription]
+      `INSERT INTO customers (fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, extra_numbers, product_id, metered_sip_trunk_usage, cloud_server_hosting_subscription, included_channels) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [fullname, phone, email, street_address, city, state, zip_code, access_key, secret_key, billing_day, subscription_type, extra_numbers, product_id, metered_sip_trunk_usage, cloud_server_hosting_subscription, included_channels]
     ) as [ResultSetHeader, any];
     console.log({result})
 

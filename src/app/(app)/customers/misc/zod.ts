@@ -39,6 +39,7 @@ export const customerFormSchema = z
   //primary
   phone_plan: z.string().optional(),
   extra_numbers: z.coerce.number().optional(),
+  included_channels: z.coerce.number().optional(),
 
   //secondary
   metered_billing_plan: z.string().optional(),
@@ -48,7 +49,7 @@ export const customerFormSchema = z
 })
 .superRefine(({subscription_type, phone_plan, metered_sip_trunk_usage, metered_billing_plan, cloud_server_hosting_subscription}, ctx)=>{
 
-  if (subscription_type === "primary" ) {
+  if (subscription_type === "metered" ) {
     if (phone_plan===undefined) {
       ctx.addIssue({
         code: "custom",
@@ -58,7 +59,17 @@ export const customerFormSchema = z
     }
   }
 
-  if (subscription_type === "secondary" ) {
+  if (subscription_type === "unmetered" ) {
+    if (phone_plan===undefined) {
+      ctx.addIssue({
+        code: "custom",
+        message: "A plan type is required",
+        path: ["phone_plan"]
+      })
+    }
+  }
+
+  if (subscription_type === "others" ) {
 
     if (metered_billing_plan===undefined) {
       ctx.addIssue({

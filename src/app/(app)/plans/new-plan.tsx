@@ -57,7 +57,16 @@ export function AddForm({onSuccess}:Props) {
   });
 
   const onSubmit = async (data: z.infer<typeof planFormSchema>) => {
-    addPlanMutation.mutate(data)
+    const preparedData = {
+      ...data,
+      included_minutes: data.included_minutes ?? "",
+      additional_minutes: data.additional_minutes ?? "",
+      included_numbers: data.included_numbers ?? "",
+      number_cost: data.number_cost ?? "",
+      included_channels: data.included_channels ?? "",
+      cost_additional_channels: data.cost_additional_channels ?? "",
+    };
+    addPlanMutation.mutate(preparedData)
   };
 
   return (
@@ -72,19 +81,6 @@ export function AddForm({onSuccess}:Props) {
               <FormLabel>Plan Name</FormLabel>
               <FormControl>
                 <Input type="text" placeholder="Enter Plan Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="included_minutes"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Included Minutes</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Included Minutes" {...field} type="number" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -136,7 +132,11 @@ export function AddForm({onSuccess}:Props) {
           {form.formState.errors.plan_type && <span className='label-error'>{form.formState.errors.plan_type.message}</span>}
         </div>
 
-        {form.watch('plan_type') === "primary" ? (
+
+
+        {form.watch('plan_type') === "metered" || form.watch('plan_type') === "unmetered" ? (
+        <>
+        {form.watch('plan_type') === "metered" && (
           <>
         <FormField
           control={form.control}
@@ -151,8 +151,52 @@ export function AddForm({onSuccess}:Props) {
             </FormItem>
           )}
         />
-
-<FormField
+        <FormField
+          control={form.control}
+          name="included_minutes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Included Minutes</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter Included Minutes" {...field} type="number" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </>
+      )}
+      {form.watch('plan_type') === "unmetered" && (
+        <>
+         <FormField
+          control={form.control}
+          name="included_channels"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Included Channels</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter Included Channels" {...field} type="number" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="cost_additional_channels"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Cost of Additional Channels</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter cost of additional Channels" {...field} type="number" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        </>
+          )}
+          <FormField
           control={form.control}
           name="included_numbers"
           render={({ field }) => (
@@ -165,25 +209,25 @@ export function AddForm({onSuccess}:Props) {
             </FormItem>
           )}
         />
-
-<FormField
-          control={form.control}
-          name="number_cost"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Number Cost</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Number Cost" {...field} type="number" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </>
-      ): (
-        <>
-        </>
+          <FormField
+      control={form.control}
+      name="number_cost"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Cost of Extra Number</FormLabel>
+          <FormControl>
+            <Input placeholder="Enter Cost of Extra Number" {...field} type="number" />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
       )}
+    />
+            </>
+) : (
+  <>
+  </>
+)}
+
 
         <Button className='w-full' type="submit" busy={addPlanMutation.isPending}>Add New Plan</Button>
 

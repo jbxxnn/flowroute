@@ -66,10 +66,6 @@ export const columns: ColumnDef<Plan>[] = [
       },
   },
   {
-    accessorKey: "included_minutes",
-    header: "Included Minutes",
-  },
-  {
     accessorKey: "plan_price",
     header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {

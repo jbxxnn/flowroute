@@ -52,7 +52,7 @@ export function PlanSelect({label, form, field, type}:PlanSelectProps){
                 <p className='text-red-500 text-sm'>Error loading plans</p>
               ): 
                 plans?.filter(plan=>plan.plan_type===type).map(option=>(
-                  <SelectItem key={option.id} value={String(option.id)}>{option.plan_name}</SelectItem>
+                  <SelectItem key={option.id} value={String(option.id)}>{option.plan_name} - ${option.plan_price}</SelectItem>
                 ))
             }
           </SelectContent>
@@ -217,14 +217,14 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
 
         <div className="grid md:grid-cols-2 gap-4">
 
-          {form.watch('subscription_type') === "secondary" ? (
+          {form.watch('subscription_type') === "others" ? (
             <>
 
               <PlanSelect form={form} label="Metered Billing Plan" field="metered_billing_plan" type={form.watch("subscription_type")} />
 
               <div className='space-y-2'>
                 <label>
-                  Cloud Server Hosting Subscription
+                  Cloud Server Hosting
                   <Input {...form.register('cloud_server_hosting_subscription')} type="number"  />
                 </label>
                 {form.formState.errors.cloud_server_hosting_subscription && <span className='label-error'>{form.formState.errors.cloud_server_hosting_subscription.message}</span>}
@@ -242,8 +242,30 @@ export function NewForm({ onSubmitted=()=>{} }: ProfileFormProps) {
               </div>
             </>
 
-          ): (
-              <>
+          ): form.watch('subscription_type') === "unmetered" ? (
+            <>
+            <div className="md:col-span-2">
+                  <PlanSelect form={form} label="Phone Plan" field="phone_plan" type={form.watch("subscription_type")} />
+                </div>
+          <div className="space-y-2">
+                  <label>
+                    Extra Channels 
+                    <Input {...form.register('included_channels')} type="number" onChange={e=> form.setValue("included_channels", Number(e.target.value || 0))} defaultValue={0} min={0} />
+                  </label>
+                  {form.formState.errors.included_channels && <span className='label-error'>{form.formState.errors.included_channels.message}</span>}
+                </div>
+
+                <div className="space-y-2">
+                  <label>
+                    Extra numbers 
+                    <Input {...form.register('extra_numbers')} type="number" onChange={e=> form.setValue("extra_numbers", Number(e.target.value || 0))} defaultValue={0} min={0} />
+                  </label>
+                  {form.formState.errors.extra_numbers && <span className='label-error'>{form.formState.errors.extra_numbers.message}</span>}
+                </div>
+          
+          </>
+        ) : (
+          <>
                <div className="md:col-span-2">
                   <PlanSelect form={form} label="Phone Plan" field="phone_plan" type={form.watch("subscription_type")} />
                 </div>

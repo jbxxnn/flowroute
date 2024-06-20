@@ -17,24 +17,24 @@ export const metadata: Metadata = {
       ? `https://${process.env.VERCEL_URL}`
       : `http://localhost:${process.env.PORT || 3000}`
   ),
-  title: "Flowbill",
+  title: "Versal Technologies",
   description:
-    "Manage your Flowbill.",
+    "Phone System Billing Software.",
   alternates: {
     canonical: "/"
   },
   openGraph: {
     url: "/",
-    title: "Flowbill",
+    title: "Versal Technologies",
     description:
-      "Manage your flowbill",
+      "Phone System Billing Software.",
     type: "website"
   },
   twitter: {
     card: "summary_large_image",
-    title: "Flowbill",
+    title: "Versal Technologies",
     description:
-      "Manage your flowbill"
+      "Phone System Billing Software."
   }
 };
 

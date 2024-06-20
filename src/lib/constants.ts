@@ -1,1 +1,1 @@
-export const PLAN_TYPES = ["primary", "secondary"]
+export const PLAN_TYPES = ["metered", "unmetered", "others"]
