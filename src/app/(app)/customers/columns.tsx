@@ -39,8 +39,19 @@ export const columns: ColumnDef<Customer>[] = [
           enableHiding: false,
     },
   {
-    accessorKey: "fullname",
+    /* accessorKey: "fullname", */
     header: "Full name",
+    cell: ({ row }) => {
+      const customer = row.original
+ 
+      return (
+        <p>
+          <Link href={`/customers/${customer.customer_id}`} className="hover:underline">
+            {customer.fullname}
+          </Link>
+        </p>
+      )
+    },
   },
   {
     accessorKey: "email",
